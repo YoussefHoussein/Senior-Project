@@ -39,6 +39,12 @@ const Login = () => {
             wrapper.current.className = 'wrapper'
         }
     }
+    const googleAuthLogin = () =>{
+        window.open(`${process.env.REACT_APP_API_URL}/auth/google/callback`,"_self")
+    }
+    const googleAuthRegister = () =>{
+        window.open(`${process.env.REACT_APP_API_URL}/auth/google/callback`,"_self")
+    }
   return (
     <div className="wrapper" ref={wrapper}>
         <span className="bg-animate"></span>
@@ -61,7 +67,7 @@ const Login = () => {
                     <p>Don't have an account?</p>
                     <a className="register-link" onClick={openRegister} href='#'>Register</a>
                 </div>
-                <div className="google flex animation">
+                <div className="google flex animation" onClick={googleAuthLogin}>
                     <FcGoogle className='google-logo'/> 
                     <p>Continue with Google</p>
                 </div>
@@ -98,7 +104,7 @@ const Login = () => {
                     <p>Already have an account?</p>
                     <a className="register-link" onClick={openLogin} href='#'>Login</a>
                 </div>
-                <div className="google flex animation">
+                <div className="google flex animation" onClick={googleAuthRegister}>
                     <FcGoogle className='google-logo'/> 
                     <p>Continue with Google</p>
                 </div>
