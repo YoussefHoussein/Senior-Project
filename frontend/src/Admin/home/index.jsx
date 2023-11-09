@@ -1,9 +1,12 @@
 import React from 'react'
-
-const admin_home = () => {
+import Navbar from '../../Components/navbar'
+import './style.css'
+const AdminHome = () => {
   return (
-    <div>admin_home</div>
+    <div className='admin-home'>
+      <Navbar />
+    </div>
   )
 }
 
-export default admin_home
+export default AdminHome

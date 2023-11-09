@@ -1,9 +1,12 @@
 import React from 'react'
-
-const cient_home = () => {
+import Navbar from '../../Components/navbar'
+import './style.css'
+const ClientHome= () => {
   return (
-    <div>CLient_Home</div>
+    <div className='client-home'>
+      <Navbar />
+    </div>
   )
 }
 
-export default cient_home
+export default ClientHome

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const client_sidebar = () => {
+const ClientSidebar = () => {
   return (
     <div>client_sidebar</div>
   )
 }
 
-export default client_sidebar
+export default ClientSidebar

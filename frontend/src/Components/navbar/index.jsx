@@ -1,9 +1,9 @@
 import React from 'react'
-
-const navbar = () => {
+import './style.css'
+const Navbar = () => {
   return (
-    <div>navbar</div>
+    <div className='navbar-container'>navbar</div>
   )
 }
 
-export default navbar
+export default Navbar
