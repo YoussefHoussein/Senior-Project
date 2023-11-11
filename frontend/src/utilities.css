@@ -11,3 +11,9 @@
 .spaceBetween{
     justify-content: space-between;
 }
+.spaceEvenly{
+    justify-content: space-evenly;
+}
+.spaceAround{
+    justify-content: space-around;
+}
