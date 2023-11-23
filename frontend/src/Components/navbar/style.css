@@ -64,10 +64,16 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: gray;
+    background-color: gainsboro;
     overflow: hidden;
 }
 .empty-image{
     width: 50%;
     height: 50%;
+}
+.user-img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: gainsboro;
 }

@@ -6,12 +6,19 @@ import {AiOutlineSearch} from "react-icons/ai"
 import {IoMdNotificationsOutline} from "react-icons/io"
 import ModalComponent from '../modal'
 const Navbar = ({username, userImage}) => {
-  const [open,SetOpen] = useState(false)
-  const openModal = () =>{
-    SetOpen(true)
+  const [openNotification,SetOpenNotification] = useState(false)
+  const [openUser,SetOpenUser] = useState(false)
+  const openNotificationModal = () =>{
+    SetOpenNotification(true)
   }
-  const closeModal = () =>{
-    SetOpen(false)
+  const closeNotificationModal = () =>{
+    SetOpenNotification(false)
+  } 
+  const openUserModal = () =>{
+    SetOpenUser(true)
+  }
+  const closeUserModal = () =>{ 
+    SetOpenUser(false)
   }
   return (
     <div className='navbar-container flex spaceAround'>
@@ -24,24 +31,18 @@ const Navbar = ({username, userImage}) => {
         <input type="text" name="search" className='search-input' placeholder='Click to Search'/>
       </div>
       <div className="user-icon flex spaceAround">
-        <div className="notification" onClick={openModal}><IoMdNotificationsOutline className='icon'/></div>
-        <ModalComponent openModal={open} onRequestClose={closeModal}>
+        <div className="notification" onClick={openNotificationModal}><IoMdNotificationsOutline className='icon'/></div>
+        <ModalComponent openModal={openNotification} onRequestClose={closeNotificationModal} posTop={'40'} posLeft={'77'} justifyContent={'center'}>
           <img src={noNotification} alt="nope" className='empty-image'/> 
           <p>You have no notification this moment!!</p> 
-          <p>You have no notification this moment!!</p> 
-          <p>You have no notification this moment!!</p> 
-          <p>You have no notification this moment!!</p> 
-          <p>You have no notification this moment!!</p> 
-          <p>You have no notification this moment!!</p> 
-          <p>You have no notification this moment!!</p> 
-          <p>You have no notification this moment!!</p> 
-          <p>You have no notification this moment!!</p> 
-          
         </ModalComponent>
-        <div className="user flex">
+        <div className="user flex" onClick={openUserModal}>
           {username}
           <div className="username-circle"></div>
         </div>
+        <ModalComponent openModal={openUser} onRequestClose={closeUserModal} posTop={'40'} posLeft={'88'} justifyContent={'flex-start'}>
+            <div className="user-img"></div>
+        </ModalComponent>
       </div>
     </div>
   )

@@ -1,10 +1,10 @@
 import React from 'react'
 import Modal from 'react-modal'
-const ModalComponent = ({openModal,onRequestClose,children}) => {
+const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justifyContent}) => {
     const customStyles = {
         content: {
-            top: '40%',
-            left: '77%',
+            top: `${posTop}%`,
+            left: `${posLeft}%`,
             maxHeight: '70vh',
             width: '300px',
             transform: 'translate(-50%, -50%)',
@@ -15,7 +15,7 @@ const ModalComponent = ({openModal,onRequestClose,children}) => {
             overflow: 'auto',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'center',
+            justifyContent: `${justifyContent}`,
             alignItems: 'center',
         },
         overlay: {
