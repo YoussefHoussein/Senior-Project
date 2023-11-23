@@ -1,0 +1,21 @@
+.sidebar-item{
+    cursor: pointer;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 10px;
+    height: 30px;
+    gap: 10%;
+}
+.sidebar-item:hover{
+    background-color: #219DB8;
+}
+.sidebar-item.active{
+    background-color: #219DB8;
+}
+.sidebar-item.active:hover{
+    color: black;
+    background-color: white;
+}
+.icon-container{
+    font-size: 25px;
+}

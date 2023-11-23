@@ -3,8 +3,7 @@ import './style.css'
 import img from './Picture1.png'
 import {AiOutlineSearch} from "react-icons/ai"
 import {IoMdNotificationsOutline} from "react-icons/io"
-import {BiUserCircle} from "react-icons/bi"
-const Navbar = () => {
+const Navbar = ({username, userImage}) => {
   return (
     <div className='navbar-container flex spaceAround'>
       <div className="title flex spaceEvenly">
@@ -15,9 +14,12 @@ const Navbar = () => {
         <AiOutlineSearch className='icon'/>
         <input type="text" name="search" className='search-input' placeholder='Click to Search'/>
       </div>
-      <div className="user-icon flex spaceBetween">
+      <div className="user-icon flex spaceAround">
         <div className="notification"><IoMdNotificationsOutline className='icon'/></div>
-        <div className="user"><BiUserCircle className='icon'/></div>
+        <div className="user flex">
+          {username}
+          <div className="username-circle"></div>
+        </div>
       </div>
     </div>
   )

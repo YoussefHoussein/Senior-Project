@@ -1,0 +1,31 @@
+.sidebar-container{
+    background-color: #081B38;
+    width: 194px;
+    height: calc(100vh - 100px);
+    position: absolute;
+    left: 0;
+    top: 100px;
+    overflow: hidden;
+}
+.logout-container{
+    color: white;
+    gap: 10%;
+    cursor: pointer;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 15%;
+    justify-content: flex-start;
+    padding: 10px;
+}
+.logout-container:hover{
+    background-color: #219DB8;
+}
+.logout{
+    font-size: 25px;
+}
+.items{
+    color: white;
+    gap: 10px;
+    margin-top: 15%;
+    overflow: hidden;
+}
