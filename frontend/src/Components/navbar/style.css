@@ -67,3 +67,7 @@
     background-color: gray;
     overflow: hidden;
 }
+.empty-image{
+    width: 50%;
+    height: 50%;
+}

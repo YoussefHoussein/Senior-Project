@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './style.css'
 import img from './Picture1.png'
+import noNotification from './no-notification.png'
 import {AiOutlineSearch} from "react-icons/ai"
 import {IoMdNotificationsOutline} from "react-icons/io"
+import ModalComponent from '../modal'
 const Navbar = ({username, userImage}) => {
+  const [open,SetOpen] = useState(false)
+  const openModal = () =>{
+    SetOpen(true)
+  }
+  const closeModal = () =>{
+    SetOpen(false)
+  }
   return (
     <div className='navbar-container flex spaceAround'>
       <div className="title flex spaceEvenly">
@@ -15,7 +24,20 @@ const Navbar = ({username, userImage}) => {
         <input type="text" name="search" className='search-input' placeholder='Click to Search'/>
       </div>
       <div className="user-icon flex spaceAround">
-        <div className="notification"><IoMdNotificationsOutline className='icon'/></div>
+        <div className="notification" onClick={openModal}><IoMdNotificationsOutline className='icon'/></div>
+        <ModalComponent openModal={open} onRequestClose={closeModal}>
+          <img src={noNotification} alt="nope" className='empty-image'/> 
+          <p>You have no notification this moment!!</p> 
+          <p>You have no notification this moment!!</p> 
+          <p>You have no notification this moment!!</p> 
+          <p>You have no notification this moment!!</p> 
+          <p>You have no notification this moment!!</p> 
+          <p>You have no notification this moment!!</p> 
+          <p>You have no notification this moment!!</p> 
+          <p>You have no notification this moment!!</p> 
+          <p>You have no notification this moment!!</p> 
+          
+        </ModalComponent>
         <div className="user flex">
           {username}
           <div className="username-circle"></div>
