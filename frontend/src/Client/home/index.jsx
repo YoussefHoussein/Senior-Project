@@ -5,7 +5,7 @@ import Sidebar from '../../Components/sidebar'
 const ClientHome= () => {
   return (
     <div className='client-home relative full'>
-      <Navbar username={"Youssef"} />
+      <Navbar username={"Youssef"} email={"test@gmail.com"} />
       <Sidebar items={["Home","Suggestions","Slots","Statistics","Support"]}/>
       <div className="client-home-container absolute body">Home</div>
     </div>
