@@ -5,9 +5,11 @@ import img from './Picture1.png'
 import noNotification from './no-notification.png'
 import {AiOutlineSearch} from "react-icons/ai"
 import {IoMdNotificationsOutline} from "react-icons/io"
+import { LuMailWarning } from "react-icons/lu";
+import { PiWarningThin } from "react-icons/pi";
 import ModalComponent from '../modal'
 import Map from '../map'
-const Navbar = ({username, userImage,email,notifications}) => {
+const Navbar = ({username, userImage,email,notifications,latitude,longitude}) => {
   const [openNotification,SetOpenNotification] = useState(false)
   const [openUser,SetOpenUser] = useState(false)
   const openNotificationModal = () =>{
@@ -45,7 +47,7 @@ const Navbar = ({username, userImage,email,notifications}) => {
           </ModalComponent> 
           : 
           <ModalComponent openModal={openNotification} onRequestClose={closeNotificationModal} posTop={'40'} posLeft={'77'} justifyContent={'center'} height={'50'} gap={'0'}>
-            <img src={noNotification} alt="nope" className='empty-image'/> 
+            <LuMailWarning className='empty-icon'/>
             <p>You have no notification this moment!!</p> 
           </ModalComponent>
         }
@@ -62,8 +64,17 @@ const Navbar = ({username, userImage,email,notifications}) => {
             <div className="info-container flex center">
               <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
-            <div className="location">
-              <Map />
+            <div className="location flex center">
+              {
+                longitude & latitude ? 
+                  <Map longitude={longitude} latitude={latitude}/>
+                  :
+                  <div className='flex center column'>
+                    <PiWarningThin className='warning-location'/>
+                    You didn't add your location yet! <br /> Click "Edit" to add your location
+                  </div>
+              }
+              
             </div>
             <button className='edit-info'>Edit</button>
         </ModalComponent>

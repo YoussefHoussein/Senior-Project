@@ -10,8 +10,8 @@ L.Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
-const Map = () => {
-    const position = [33.8547, 35.8623]
+const Map = ({longitude,latitude}) => {
+    const position = [longitude, latitude]
   return (
     <MapContainer className='map' center={position} zoom={13} scrollWheelZoom={false} >
         <TileLayer
