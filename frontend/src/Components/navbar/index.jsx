@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+
 import './style.css'
 import img from './Picture1.png'
 import noNotification from './no-notification.png'
 import {AiOutlineSearch} from "react-icons/ai"
 import {IoMdNotificationsOutline} from "react-icons/io"
 import ModalComponent from '../modal'
+import Map from '../map'
 const Navbar = ({username, userImage,email,notifications}) => {
   const [openNotification,SetOpenNotification] = useState(false)
   const [openUser,SetOpenUser] = useState(false)
@@ -37,7 +39,7 @@ const Navbar = ({username, userImage,email,notifications}) => {
           <ModalComponent openModal={openNotification} onRequestClose={closeNotificationModal} posTop={'40'} posLeft={'77'} justifyContent={'flex-start'} height={'50'} gap={'0'}>
               {notifications?.map((notification, index) => {
               return (
-                <div className='notification-container flex align-center flex-start'>{notification}</div>
+                <div className='notification-container flex align-center flex-start' key={index}>{notification}</div>
               );
             })}
           </ModalComponent> 
@@ -55,12 +57,14 @@ const Navbar = ({username, userImage,email,notifications}) => {
         <ModalComponent openModal={openUser} onRequestClose={closeUserModal} posTop={'50'} posLeft={'88'} justifyContent={'flex-start'} height={'70'} gap={'20'}>
             <div className="user-img"></div>
             <div className="info-container flex center">
-              <input type="text" name="username" value={username} className='info-input'/>
+              <input type="text" name="username" value={username} className='info-input' disabled/>
             </div>
             <div className="info-container flex center">
-              <input type="text" name="email" value={email} className='info-input'/>
+              <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
-            <div className="location"></div>
+            <div className="location">
+              <Map />
+            </div>
             <button className='edit-info'>Edit</button>
         </ModalComponent>
       </div>
