@@ -122,3 +122,10 @@
 .edit-info:hover::before{
     top: 0%;
 }
+.notification-container{
+    width: 90%;
+    height: 50px;
+    padding: 0 10px;
+    border-bottom: 1px solid #081B38;
+    scroll-behavior: auto;
+}

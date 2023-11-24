@@ -5,7 +5,7 @@ import noNotification from './no-notification.png'
 import {AiOutlineSearch} from "react-icons/ai"
 import {IoMdNotificationsOutline} from "react-icons/io"
 import ModalComponent from '../modal'
-const Navbar = ({username, userImage,email}) => {
+const Navbar = ({username, userImage,email,notifications}) => {
   const [openNotification,SetOpenNotification] = useState(false)
   const [openUser,SetOpenUser] = useState(false)
   const openNotificationModal = () =>{
@@ -32,10 +32,22 @@ const Navbar = ({username, userImage,email}) => {
       </div>
       <div className="user-icon flex spaceAround">
         <div className="notification" onClick={openNotificationModal}><IoMdNotificationsOutline className='icon'/></div>
-        <ModalComponent openModal={openNotification} onRequestClose={closeNotificationModal} posTop={'40'} posLeft={'77'} justifyContent={'center'} height={'50'} gap={'0'}>
-          <img src={noNotification} alt="nope" className='empty-image'/> 
-          <p>You have no notification this moment!!</p> 
-        </ModalComponent>
+        {
+          notifications ? 
+          <ModalComponent openModal={openNotification} onRequestClose={closeNotificationModal} posTop={'40'} posLeft={'77'} justifyContent={'flex-start'} height={'50'} gap={'0'}>
+              {notifications?.map((notification, index) => {
+              return (
+                <div className='notification-container flex align-center flex-start'>{notification}</div>
+              );
+            })}
+          </ModalComponent> 
+          : 
+          <ModalComponent openModal={openNotification} onRequestClose={closeNotificationModal} posTop={'40'} posLeft={'77'} justifyContent={'center'} height={'50'} gap={'0'}>
+            <img src={noNotification} alt="nope" className='empty-image'/> 
+            <p>You have no notification this moment!!</p> 
+          </ModalComponent>
+        }
+        
         <div className="user flex" onClick={openUserModal}>
           {username}
           <div className="username-circle"></div>
