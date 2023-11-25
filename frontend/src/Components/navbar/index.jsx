@@ -1,17 +1,24 @@
 import React, { useState } from 'react'
-
 import './style.css'
 import img from './Picture1.png'
-import noNotification from './no-notification.png'
 import {AiOutlineSearch} from "react-icons/ai"
 import {IoMdNotificationsOutline} from "react-icons/io"
 import { LuMailWarning } from "react-icons/lu";
 import { PiWarningThin } from "react-icons/pi";
+import {MdNotificationsActive} from 'react-icons/md'
 import ModalComponent from '../modal'
 import Map from '../map'
 const Navbar = ({username, userImage,email,notifications,latitude,longitude}) => {
   const [openNotification,SetOpenNotification] = useState(false)
   const [openUser,SetOpenUser] = useState(false)
+  const [openEdit, SetOpenEdit] = useState(false)
+  const [data, SetData] = useState({
+    username: username,
+    email: email,
+  })
+  const editData = (e) =>{
+    SetData({ ...data, [e.target.name]: e.target.value })
+  }
   const openNotificationModal = () =>{
     SetOpenNotification(true)
   }
@@ -24,6 +31,13 @@ const Navbar = ({username, userImage,email,notifications,latitude,longitude}) =>
   const closeUserModal = () =>{ 
     SetOpenUser(false)
   }
+  const openEditModal = () => {
+    SetOpenUser(false)
+    SetOpenEdit(true)
+  }
+  const closeEditModal = () => {
+    SetOpenEdit(false)
+  }
   return (
     <div className='navbar-container flex spaceAround'>
       <div className="title flex spaceEvenly">
@@ -35,10 +49,22 @@ const Navbar = ({username, userImage,email,notifications,latitude,longitude}) =>
         <input type="text" name="search" className='search-input' placeholder='Click to Search'/>
       </div>
       <div className="user-icon flex spaceAround">
-        <div className="notification" onClick={openNotificationModal}><IoMdNotificationsOutline className='icon'/></div>
+        <div className="notification" onClick={openNotificationModal}>
+          <IoMdNotificationsOutline className='icon'/>
+        </div>
         {
           notifications ? 
-          <ModalComponent openModal={openNotification} onRequestClose={closeNotificationModal} posTop={'40'} posLeft={'77'} justifyContent={'flex-start'} height={'50'} gap={'0'}>
+          <ModalComponent 
+            openModal={openNotification} 
+            onRequestClose={closeNotificationModal} 
+            posTop={'40'} 
+            posLeft={'77'} 
+            justifyContent={'flex-start'} 
+            height={'50'} gap={'0'} 
+            backgroundColor={'#081B38'} 
+            color={'white'} 
+            width={'300'}
+          >
               {notifications?.map((notification, index) => {
               return (
                 <div className='notification-container flex align-center flex-start' key={index}>{notification}</div>
@@ -46,7 +72,18 @@ const Navbar = ({username, userImage,email,notifications,latitude,longitude}) =>
             })}
           </ModalComponent> 
           : 
-          <ModalComponent openModal={openNotification} onRequestClose={closeNotificationModal} posTop={'40'} posLeft={'77'} justifyContent={'center'} height={'50'} gap={'0'}>
+          <ModalComponent 
+            openModal={openNotification} 
+            onRequestClose={closeNotificationModal} 
+            posTop={'40'} 
+            posLeft={'77'} 
+            justifyContent={'center'} 
+            height={'50'} 
+            gap={'0'} 
+            backgroundColor={'#081B38'} 
+            color={'white'} 
+            width={'300'}
+          >
             <LuMailWarning className='empty-icon'/>
             <p>You have no notification this moment!!</p> 
           </ModalComponent>
@@ -56,7 +93,18 @@ const Navbar = ({username, userImage,email,notifications,latitude,longitude}) =>
           {username}
           <div className="username-circle"></div>
         </div>
-        <ModalComponent openModal={openUser} onRequestClose={closeUserModal} posTop={'50'} posLeft={'88'} justifyContent={'flex-start'} height={'70'} gap={'20'}>
+        <ModalComponent 
+          openModal={openUser} 
+          onRequestClose={closeUserModal} 
+          posTop={'50'} 
+          posLeft={'88'} 
+          justifyContent={'flex-start'} 
+          height={'70'} 
+          gap={'20'} 
+          backgroundColor={'#081B38'} 
+          color={'white'} 
+          width={'300'}
+        >
             <div className="user-img"></div>
             <div className="info-container flex center">
               <input type="text" name="username" value={username} className='info-input' disabled/>
@@ -71,12 +119,36 @@ const Navbar = ({username, userImage,email,notifications,latitude,longitude}) =>
                   :
                   <div className='flex center column'>
                     <PiWarningThin className='warning-location'/>
-                    You didn't add your location yet! <br /> Click "Edit" to add your location
+                    You didn't add your location yet! <br /> Click "Edit" to add it
                   </div>
               }
               
             </div>
-            <button className='edit-info'>Edit</button>
+            <button className='edit-info' onClick={openEditModal}>Edit</button>
+        </ModalComponent>
+        <ModalComponent 
+          openModal={openEdit} 
+          onRequestClose={closeEditModal} 
+          posTop={'50'} 
+          posLeft={'50'} 
+          justifyContent={'flex-start'} 
+          height={'70'} 
+          gap={'10'} 
+          backgroundColor={'#fff'} 
+          color={'black'} 
+          width={'450'}
+        >
+          <div className="edit-user-img"></div>
+            <div className="info-container flex center">
+              <input type="text" name="username" value={data.username} className='info-edit' onChange={editData} required/>
+            </div>
+            <div className="info-container flex center">
+              <input type="text" name="email" value={data.email} className='info-edit' onChange={editData} required/>
+            </div>
+            <div className="edit-location flex center">
+                  <Map longitude={longitude} latitude={latitude}/>
+            </div>
+            <button className='edit-info' onClick={openEditModal}>Save</button>
         </ModalComponent>
       </div>
     </div>

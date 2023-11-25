@@ -1,14 +1,14 @@
 import React from 'react'
 import Modal from 'react-modal'
-const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justifyContent,height,gap}) => {
+const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justifyContent,height,gap,backgroundColor, color, width}) => {
     const customStyles = {
         content: {
             top: `${posTop}%`,
             left: `${posLeft}%`,
             height: `${height}vh`,
-            width: '300px',
+            width: `${width}px`,
             transform: 'translate(-50%, -50%)',
-            backgroundColor: '#fff',
+            backgroundColor: `${backgroundColor}`,
             borderRadius: '10px',
             boxShadow: '0 0 10px rgba(0,0,0,0.5)',
             padding: '20px',
@@ -18,6 +18,7 @@ const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justif
             justifyContent: `${justifyContent}`,
             alignItems: 'center',
             gap: `${gap}px`,
+            color: `${color}`,
         },
         overlay: {
             backgroundColor: 'rgba(0,0,0,0.5)',

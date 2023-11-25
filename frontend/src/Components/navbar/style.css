@@ -78,12 +78,29 @@
     border-radius: 50%;
     background-color: gainsboro;
 }
+.edit-user-img{
+    width: 85px;
+    height:85px;
+    border-radius: 50%;
+    background-color: gainsboro;
+}
 .info-input{
     width: 80%;
     height: 50px;
     border: none;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid white;
     outline: none;
+    background-color: transparent;
+    color: white;
+}
+.info-edit{
+    width: 80%;
+    height: 50px;
+    border: none;
+    border-bottom: 2px solid #081B38;
+    outline: none;
+    background-color: transparent;
+    color: #081B38;
 }
 .info-container{
     width: 100%;
@@ -91,9 +108,13 @@
 .location{
     width: 80%;
     height: 200px;
-    border: 2px solid black;
+    border: 2px solid white;
 }
-
+.edit-location{
+    width: 80%;
+    height: 250px;
+    border: 2px solid #081B38;
+}
 .edit-info{
     position: relative;
     width: 50%;
@@ -127,7 +148,7 @@
     width: 90%;
     height: 50px;
     padding: 0 10px;
-    border-bottom: 1px solid #081B38;
+    border-bottom: 1px solid #fff;
     scroll-behavior: auto;
 }
 .map{
