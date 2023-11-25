@@ -8,7 +8,9 @@ import { PiWarningThin } from "react-icons/pi";
 import {MdNotificationsActive} from 'react-icons/md'
 import ModalComponent from '../modal'
 import Map from '../map'
-const Navbar = ({username, userImage,email,notifications,latitude,longitude}) => {
+const Navbar = ({username, userImage,email,notifications}) => {
+  const [longitude, setLongitude] = useState(5)
+  const [latitude, setLatitude] = useState(5)
   const [openNotification,SetOpenNotification] = useState(false)
   const [openUser,SetOpenUser] = useState(false)
   const [openEdit, SetOpenEdit] = useState(false)
