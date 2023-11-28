@@ -21,7 +21,8 @@ const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justif
             color: `${color}`,
         },
         overlay: {
-            backgroundColor: 'rgba(0,0,0,0.5)',
+            background: 'transparent',
+            backdropFilter: 'blur(5px)',
             top: 0,
             left: 0,
             right: 0,
