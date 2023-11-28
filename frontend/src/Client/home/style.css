@@ -1,0 +1,7 @@
+.client-home-container{
+    width: calc(100% - 194px);
+    height: calc(100vh - 100px);
+}
+.client-home{
+    overflow: hidden;
+}
