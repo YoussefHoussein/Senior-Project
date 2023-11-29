@@ -1,0 +1,8 @@
+.slots-body{
+    width: calc(100% - 194px);
+    height: calc(100vh - 100px);
+    padding: 2%;
+}
+.slots{
+    overflow: hidden;
+}
