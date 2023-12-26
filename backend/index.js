@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser'); 
+const cors = require('cors');
 
 const  UserRoute = require('./routes/userRoute')
 
@@ -29,5 +30,5 @@ app.listen(8000, (err) => {
     console.log("server is running on port: ", 8000)
   })
 
-
+app.use(cors());
 app.use('/api/user',UserRoute)
