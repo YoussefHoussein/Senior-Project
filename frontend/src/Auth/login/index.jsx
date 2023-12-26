@@ -4,11 +4,14 @@ import {AiFillCopyrightCircle } from "react-icons/ai";
 import { BsFillPersonFill ,BsFillLockFill , BsFillUnlockFill } from "react-icons/bs";
 import {MdEmail} from 'react-icons/md'
 import axios from 'axios'
+import { useLocation, useNavigate } from "react-router-dom";
 const Login = () => {
     const wrapper = useRef()
     const [pass, setPass] = useState("password")
     const [validLogin ,setValidLogin] = useState(1)
     const [validRegister, setValidRegister] = useState(1)
+    
+    const navigation = useNavigate();
 
     const unlock = () => {
         setPass("text")
@@ -61,8 +64,23 @@ const Login = () => {
         }
     }
 
-    const handleLogin = () =>{
-
+    const handleLogin = async () =>{
+        const response = await axios.post('http://127.0.0.1:8000/api/user/login', data)
+        if(response.data.message == "Logged in successfully"){
+            if(response.data.user.userType == 2){
+                navigation("client/home")
+            }
+            else{
+                navigation("admin/home")
+            }
+        }
+        else{
+            setData({
+                email: "",
+                password: "",
+            })
+            openLogin()
+        }
     }
     const handleRegister = async () => {
         const response = await axios.post('http://127.0.0.1:8000/api/user/register', reg_data)
