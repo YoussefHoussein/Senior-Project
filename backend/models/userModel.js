@@ -18,6 +18,9 @@ const userSchema = new Schema({
     latitude :{
         type: Number,
         default: null 
+    },
+    userType :{
+        type: Number
     }
 })
 const User = mongoose.model('User', userSchema);
