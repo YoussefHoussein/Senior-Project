@@ -2,7 +2,7 @@ import React from 'react'
 import {MapContainer, Marker, TileLayer} from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import L from 'leaflet';
-
+import './style.css'
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({

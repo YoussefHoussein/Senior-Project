@@ -162,7 +162,7 @@ const Navbar = ({notifications}) => {
                 longitude & latitude ? 
                 <Map longitude={longitude} latitude={latitude}/>
                 :
-                <div>Add your location</div>
+                <Map longitude= {33.8938} latitude={35.5018}/>
               }
                   
             </div>

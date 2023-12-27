@@ -19,6 +19,7 @@ const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justif
             alignItems: 'center',
             gap: `${gap}px`,
             color: `${color}`,
+            zIndex: '2'
         },
         overlay: {
             background: 'transparent',
