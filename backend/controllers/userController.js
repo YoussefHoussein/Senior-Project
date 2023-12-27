@@ -45,5 +45,11 @@ const login = async (req, res,next) =>{
     })
 }
 
+const verify = (req, res, next) =>{
+    res.send({
+        message : "authorized"
+    })
+}
 
-module.exports = {register, login}
+
+module.exports = {register, login, verify}
