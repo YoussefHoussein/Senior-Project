@@ -60,15 +60,15 @@ const upadate = async (req, res) => {
             await user.save()
             res.send({
                 message: 'Updated user',
+                name: user.name,
+                email: user.email,
+                latitude: user.latitude,
+                longitude: user.langitude
             })
         }
         else{
             res.send({
                 message: 'Error updating user, missing data',
-                name: user.name,
-                email: user.email,
-                latitude: user.latitude,
-                longitude: user.langitude
             })
         }
         

@@ -11,7 +11,10 @@ import Map from '../map'
 import { CiUser } from "react-icons/ci";
 import DMap from '../draggebleMap'
 import axios from 'axios'
+import {useNavigate } from "react-router-dom";
 const Navbar = ({notifications}) => {
+  const navigation = useNavigate();
+
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
   const [email, setEmail] = useState(localStorage.getItem('email'))
@@ -59,9 +62,17 @@ const Navbar = ({notifications}) => {
 
   const handleSave = async () => {
     await setSave(true)
-    closeEditModal()
+    
     const response = await axios.post('http://127.0.0.1:8000/api/user/update', data)
-    // console.log(response)
+    if(response.data.message == "Updated user"){
+      closeEditModal()
+      localStorage.setItem('email', response.data.email)
+      localStorage.setItem('userName', response.data.name)
+      navigation("/client")
+    }
+    else{
+      console.log('error')
+    }
     setSave(false)
   }
   return (
@@ -157,7 +168,7 @@ const Navbar = ({notifications}) => {
         >
             <div className="user-img flex center"><CiUser className='user-icons'/></div>
             <div className="info-container flex center">
-              <input type="text" name="e_username" value={data.e_name} className='info-edit' onChange={editData} required/>
+              <input type="text" name="e_name" value={data.e_name} className='info-edit' onChange={editData} required/>
             </div>
             <div className="info-container flex center">
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
