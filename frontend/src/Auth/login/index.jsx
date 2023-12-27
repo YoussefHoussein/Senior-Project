@@ -4,7 +4,7 @@ import {AiFillCopyrightCircle } from "react-icons/ai";
 import { BsFillPersonFill ,BsFillLockFill , BsFillUnlockFill } from "react-icons/bs";
 import {MdEmail} from 'react-icons/md'
 import axios from 'axios'
-import { useLocation, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 const Login = () => {
     const wrapper = useRef()
     const [pass, setPass] = useState("password")
@@ -67,12 +67,16 @@ const Login = () => {
     const handleLogin = async () =>{
         const response = await axios.post('http://127.0.0.1:8000/api/user/login', data)
         if(response.data.message == "Logged in successfully"){
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+            localStorage.setItem('userType', response.data.user.userType)
             if(response.data.user.userType == 2){
-                navigation("client/home")
+                navigation("/client")
             }
             else{
                 navigation("admin/home")
             }
+            
         }
         else{
             setData({
