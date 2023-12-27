@@ -65,6 +65,10 @@ const upadate = async (req, res) => {
         else{
             res.send({
                 message: 'Error updating user, missing data',
+                name: user.name,
+                email: user.email,
+                latitude: user.latitude,
+                longitude: user.langitude
             })
         }
         
