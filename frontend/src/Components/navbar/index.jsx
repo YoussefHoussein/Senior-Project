@@ -9,8 +9,9 @@ import {MdNotificationsActive} from 'react-icons/md'
 import ModalComponent from '../modal'
 import Map from '../map'
 import { CiUser } from "react-icons/ci";
+import DMap from '../draggebleMap'
 const Navbar = ({notifications}) => {
-  const [longitude, setLongitude] = useState(localStorage.getItem('langitude'))
+  const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
   const [email, setEmail] = useState(localStorage.getItem('email'))
   const [username, setUsername] = useState(localStorage.getItem('userName'))
@@ -126,7 +127,7 @@ const Navbar = ({notifications}) => {
               <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
             <div className="location flex center">
-              <Map />
+              <Map lan={latitude} long={longitude}/>
             </div>
             <button className='edit-info' onClick={openEditModal}>Edit</button>
         </ModalComponent>
@@ -150,7 +151,7 @@ const Navbar = ({notifications}) => {
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
             <div className="edit-location flex center">
-                <Map />
+                <DMap />
             </div>
             <button className='edit-info' onClick={openEditModal}>Save</button>
         </ModalComponent>
