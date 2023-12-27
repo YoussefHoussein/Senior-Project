@@ -36,7 +36,7 @@ const login = async (req, res,next) =>{
     if(!user) return res.json({message: "email/password incorrect"});
     const isValid = await bcrypt.compare(password, user.password);
     if(!isValid) return res.json({message: "email/password incorrect"});
-    const {password: hashedPassword, name, email, _id, ...userInfo} = user.toJSON();
+    const {password: hashedPassword, _id, ...userInfo} = user.toJSON();
     let token = jwt.sign({_id}, 'AsQ132PI',{expiresIn: '1h'})
     res.send({
         message: "Logged in successfully",
