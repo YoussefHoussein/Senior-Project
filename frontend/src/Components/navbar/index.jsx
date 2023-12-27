@@ -10,6 +10,7 @@ import ModalComponent from '../modal'
 import Map from '../map'
 import { CiUser } from "react-icons/ci";
 import DMap from '../draggebleMap'
+import axios from 'axios'
 const Navbar = ({notifications}) => {
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
@@ -23,7 +24,7 @@ const Navbar = ({notifications}) => {
   const [openEdit, SetOpenEdit] = useState(false)
 
   const [data, SetData] = useState({
-    e_username: username,
+    e_name: username,
     e_email: email,
     longitude: longitude,
     latitude: latitude,
@@ -60,7 +61,7 @@ const Navbar = ({notifications}) => {
     await setSave(true)
     closeEditModal()
     const response = await axios.post('http://127.0.0.1:8000/api/user/update', data)
-
+    // console.log(response)
     setSave(false)
   }
   return (
@@ -156,7 +157,7 @@ const Navbar = ({notifications}) => {
         >
             <div className="user-img flex center"><CiUser className='user-icons'/></div>
             <div className="info-container flex center">
-              <input type="text" name="e_username" value={data.e_username} className='info-edit' onChange={editData} required/>
+              <input type="text" name="e_username" value={data.e_name} className='info-edit' onChange={editData} required/>
             </div>
             <div className="info-container flex center">
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>

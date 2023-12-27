@@ -27,8 +27,9 @@ const DMap = ({save}) => {
     [],
   )
   const updateLocation = () => {
-    localStorage.setItem('latitude',position.lat)
-    localStorage.setItem('longitude',position.lng)
+    console.log(position)
+    // localStorage.setItem('latitude',position.lat)
+    // localStorage.setItem('longitude',position.lng)
 
 };
 
