@@ -25,6 +25,9 @@ const Navbar = ({notifications}) => {
   const [data, SetData] = useState({
     e_username: username,
     e_email: email,
+    longitude: longitude,
+    latitude: latitude,
+    token: localStorage.getItem('token')
   })
 
   const editData = (e) =>{
@@ -53,8 +56,12 @@ const Navbar = ({notifications}) => {
     SetOpenEdit(false)
   }
 
-  const handleSave = () => {
-    setSave(true)
+  const handleSave = async () => {
+    await setSave(true)
+    closeEditModal()
+    const response = await axios.post('http://127.0.0.1:8000/api/user/update', data)
+
+    setSave(false)
   }
   return (
     <div className='navbar-container flex spaceAround'>
@@ -131,7 +138,7 @@ const Navbar = ({notifications}) => {
               <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
             <div className="location flex center">
-              <Map lan={latitude} long={longitude}/>
+              <Map />
             </div>
             <button className='edit-info' onClick={openEditModal}>Edit</button>
         </ModalComponent>
@@ -155,7 +162,7 @@ const Navbar = ({notifications}) => {
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
             <div className="edit-location flex center">
-                <DMap lan={latitude} long={longitude} save={save}/>
+                <DMap save={save}/>
             </div>
             <button className='edit-info' onClick={handleSave}>Save</button>
         </ModalComponent>

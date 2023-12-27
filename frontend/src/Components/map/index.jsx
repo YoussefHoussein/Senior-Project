@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import {MapContainer, Marker, TileLayer} from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import L from 'leaflet';
@@ -11,7 +11,8 @@ L.Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
-const Map = ({lan =0 ,long=0}) => {
+const Map = () => {
+  const [position, setPosition] = useState([localStorage.getItem('latitude'),localStorage.getItem('longitude')])
   // const mapRef = useRef()
   // const showMyLocation = () =>{
   //   if (mapRef.current && location.loaded && !location.error && location.coordinates.lat && location.coordinates.long) {
@@ -20,7 +21,6 @@ const Map = ({lan =0 ,long=0}) => {
   //   }
 
   // }
-  const position = [lan,long]
   return (
     
     <MapContainer className='map' center={position} zoom={13} scrollWheelZoom={false} >

@@ -11,7 +11,7 @@ const Suggestions = () => {
       <Navbar username={"Youssef"} />
       <Sidebar items={["Home","Suggestions","Slots","Statistics","Support"]} selected={"Suggestions"}/>
       <div className="client-home-container absolute body">
-        <Map lan={latitude} long={longitude}/>
+        <Map />
       </div>
     </div>
   )
