@@ -49,6 +49,7 @@ const Navbar = ({notifications}) => {
   const closeEditModal = () => {
     SetOpenEdit(false)
   }
+
   
   return (
     <div className='navbar-container flex spaceAround'>
@@ -125,16 +126,7 @@ const Navbar = ({notifications}) => {
               <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
             <div className="location flex center">
-              {
-                longitude & latitude ? 
-                  <Map longitude={longitude} latitude={latitude}/>
-                  :
-                  <div className='flex center column'>
-                    <PiWarningThin className='warning-location'/>
-                    You didn't add your location yet! <br /> Click "Edit" to add it
-                  </div>
-              }
-              
+              <Map />
             </div>
             <button className='edit-info' onClick={openEditModal}>Edit</button>
         </ModalComponent>
@@ -158,13 +150,7 @@ const Navbar = ({notifications}) => {
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
             <div className="edit-location flex center">
-              {
-                longitude & latitude ? 
-                <Map longitude={longitude} latitude={latitude}/>
-                :
-                <Map longitude= {33.8938} latitude={35.5018}/>
-              }
-                  
+                <Map />
             </div>
             <button className='edit-info' onClick={openEditModal}>Save</button>
         </ModalComponent>
