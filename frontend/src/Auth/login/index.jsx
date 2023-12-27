@@ -74,7 +74,7 @@ const Login = () => {
                 navigation("/client")
             }
             else{
-                navigation("admin/home")
+                navigation("/admin")
             }
             
         }
