@@ -67,9 +67,14 @@ const Login = () => {
     const handleLogin = async () =>{
         const response = await axios.post('http://127.0.0.1:8000/api/user/login', data)
         if(response.data.message == "Logged in successfully"){
+            console.log(response)
             const token = response.data.token;
             localStorage.setItem('token', token);
             localStorage.setItem('userType', response.data.user.userType)
+            localStorage.setItem('userName', response.data.user.name)
+            localStorage.setItem('email', response.data.user.email)
+            localStorage.setItem('latitude', response.data.user.latitude)
+            localStorage.setItem('langitude', response.data.user.longitude)
             if(response.data.user.userType == 2){
                 navigation("/client")
             }
