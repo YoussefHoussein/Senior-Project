@@ -14,7 +14,7 @@ const register = async (req, res, next) =>{
         email:req.body.email,
         password:hashedPassword,
         latitude:0,
-        longitude:0,
+        langitude:0,
         userType: 2,
     })
     await user.save()
