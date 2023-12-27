@@ -16,6 +16,8 @@ const Navbar = ({notifications}) => {
   const [email, setEmail] = useState(localStorage.getItem('email'))
   const [username, setUsername] = useState(localStorage.getItem('userName'))
 
+  const [save, setSave] = useState(false)
+
   const [openNotification,SetOpenNotification] = useState(false)
   const [openUser,SetOpenUser] = useState(false)
   const [openEdit, SetOpenEdit] = useState(false)
@@ -51,7 +53,9 @@ const Navbar = ({notifications}) => {
     SetOpenEdit(false)
   }
 
-  
+  const handleSave = () => {
+    setSave(true)
+  }
   return (
     <div className='navbar-container flex spaceAround'>
       <div className="title flex spaceEvenly">
@@ -151,9 +155,9 @@ const Navbar = ({notifications}) => {
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
             <div className="edit-location flex center">
-                <DMap />
+                <DMap lan={latitude} long={longitude} save={save}/>
             </div>
-            <button className='edit-info' onClick={openEditModal}>Save</button>
+            <button className='edit-info' onClick={handleSave}>Save</button>
         </ModalComponent>
       </div>
     </div>
