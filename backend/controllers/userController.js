@@ -1,5 +1,6 @@
 const User = require('../models/userModel')
 const bcrypt = require("bcrypt");
+const { response } = require('express');
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res, next) =>{
@@ -45,6 +46,35 @@ const login = async (req, res,next) =>{
     })
 }
 
+const upadate = async (req, res) => {
+    const {name, email, latitude, longitude, token} = req.body
+    try{
+        const decoded = jwt.verify(token,'AsQ132PI')
+        const userId = decoded._id
+        const user = await User.findById(userId)
+        if(user && email){
+            user.name = name
+            user.email = email
+            user.latitude = latitude
+            user.langitude = longitude
+            await user.save()
+            res.send({
+                message: 'Updated user',
+            })
+        }
+        else{
+            res.send({
+                message: 'Error updating user, missing data',
+            })
+        }
+        
+    }
+    catch(err){
+        res.send({message: 'token invalid', })
+    }
+    
+}
+
 const verify = (req, res, next) =>{
     res.send({
         message : "authorized"
@@ -52,4 +82,4 @@ const verify = (req, res, next) =>{
 }
 
 
-module.exports = {register, login, verify}
+module.exports = {register, login, verify, upadate}
