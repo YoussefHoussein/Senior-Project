@@ -8,31 +8,40 @@ import { PiWarningThin } from "react-icons/pi";
 import {MdNotificationsActive} from 'react-icons/md'
 import ModalComponent from '../modal'
 import Map from '../map'
-const Navbar = ({username, userImage,email,notifications}) => {
-  const [longitude, setLongitude] = useState(5)
-  const [latitude, setLatitude] = useState(5)
+import { CiUser } from "react-icons/ci";
+const Navbar = ({notifications}) => {
+  const [longitude, setLongitude] = useState(localStorage.getItem('langitude'))
+  const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
+  const [email, setEmail] = useState(localStorage.getItem('email'))
+  const [username, setUsername] = useState(localStorage.getItem('userName'))
+
   const [openNotification,SetOpenNotification] = useState(false)
   const [openUser,SetOpenUser] = useState(false)
   const [openEdit, SetOpenEdit] = useState(false)
+
   const [data, SetData] = useState({
-    username: username,
-    email: email,
+    e_username: username,
+    e_email: email,
   })
+
   const editData = (e) =>{
     SetData({ ...data, [e.target.name]: e.target.value })
   }
+
   const openNotificationModal = () =>{
     SetOpenNotification(true)
   }
   const closeNotificationModal = () =>{
     SetOpenNotification(false)
   } 
+
   const openUserModal = () =>{
     SetOpenUser(true)
   }
   const closeUserModal = () =>{ 
     SetOpenUser(false)
   }
+
   const openEditModal = () => {
     SetOpenUser(false)
     SetOpenEdit(true)
@@ -40,6 +49,7 @@ const Navbar = ({username, userImage,email,notifications}) => {
   const closeEditModal = () => {
     SetOpenEdit(false)
   }
+  
   return (
     <div className='navbar-container flex spaceAround'>
       <div className="title flex spaceEvenly">
@@ -93,7 +103,7 @@ const Navbar = ({username, userImage,email,notifications}) => {
         
         <div className="user flex" onClick={openUserModal}>
           {username}
-          <div className="username-circle"></div>
+          <div className="username-circle flex center"> <CiUser className='user-icons'/></div>
         </div>
         <ModalComponent 
           openModal={openUser} 
@@ -107,7 +117,7 @@ const Navbar = ({username, userImage,email,notifications}) => {
           color={'white'} 
           width={'300'}
         >
-            <div className="user-img"></div>
+            <div className="user-img flex center"><CiUser className='user-icons'/></div>
             <div className="info-container flex center">
               <input type="text" name="username" value={username} className='info-input' disabled/>
             </div>
@@ -140,15 +150,21 @@ const Navbar = ({username, userImage,email,notifications}) => {
           color={'black'} 
           width={'450'}
         >
-          <div className="edit-user-img"></div>
+            <div className="user-img flex center"><CiUser className='user-icons'/></div>
             <div className="info-container flex center">
-              <input type="text" name="username" value={data.username} className='info-edit' onChange={editData} required/>
+              <input type="text" name="e_username" value={data.e_username} className='info-edit' onChange={editData} required/>
             </div>
             <div className="info-container flex center">
-              <input type="text" name="email" value={data.email} className='info-edit' onChange={editData} required/>
+              <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
             <div className="edit-location flex center">
-                  <Map longitude={longitude} latitude={latitude}/>
+              {
+                longitude & latitude ? 
+                <Map longitude={longitude} latitude={latitude}/>
+                :
+                <div>Add your location</div>
+              }
+                  
             </div>
             <button className='edit-info' onClick={openEditModal}>Save</button>
         </ModalComponent>
