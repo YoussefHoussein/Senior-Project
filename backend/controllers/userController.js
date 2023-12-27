@@ -47,14 +47,14 @@ const login = async (req, res,next) =>{
 }
 
 const upadate = async (req, res) => {
-    const {name, email, latitude, longitude, token} = req.body
+    const {e_name, e_email, latitude, longitude, token} = req.body
     try{
         const decoded = jwt.verify(token,'AsQ132PI')
         const userId = decoded._id
         const user = await User.findById(userId)
-        if(user && email){
-            user.name = name
-            user.email = email
+        if(e_name && e_email){
+            user.name = e_name
+            user.email = e_email
             user.latitude = latitude
             user.langitude = longitude
             await user.save()
