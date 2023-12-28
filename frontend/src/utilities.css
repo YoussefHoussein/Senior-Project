@@ -37,4 +37,5 @@
 .body{
     top: 100px;
     left: 194px;
+    z-index: 0;
 }

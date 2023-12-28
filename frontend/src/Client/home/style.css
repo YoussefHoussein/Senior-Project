@@ -1,8 +1,32 @@
-/* .client-home-container{
+.home-container{
     width: calc(100% - 194px);
     height: calc(100vh - 100px);
+    
 }
-.client-home{
+.map-container{
+    width: 100%;
+    height: 90%;
+}
+.instructions-container{
+    width: 100%;
+    height: 10%;
+    border: 2px solid black;
     overflow: hidden;
-    z-index: 0;
-} */
+}
+.moving-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: moveText 60s linear infinite; 
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  @keyframes moveText {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%); 
+    }
+  }
