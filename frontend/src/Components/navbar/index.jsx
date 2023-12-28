@@ -29,8 +29,6 @@ const Navbar = ({notifications}) => {
   const [data, SetData] = useState({
     e_name: username,
     e_email: email,
-    longitude: longitude,
-    latitude: latitude,
     token: localStorage.getItem('token')
   })
 
@@ -62,8 +60,15 @@ const Navbar = ({notifications}) => {
 
   const handleSave = async () => {
     await setSave(true)
-    
-    const response = await axios.post('http://127.0.0.1:8000/api/user/update', data)
+    // setLongitude(localStorage.getItem('longitude'))
+    // setLatitude(localStorage.getItem('latitude'))
+    const finalData = ({
+      ...data,
+      latitude: localStorage.getItem('latitude'),
+      longitude: localStorage.getItem('longitude'),
+    })
+    console.log(finalData)
+    const response = await axios.post('http://127.0.0.1:8000/api/user/update', finalData)
     if(response.data.message == "Updated user"){
       closeEditModal()
       localStorage.setItem('email', response.data.email)
