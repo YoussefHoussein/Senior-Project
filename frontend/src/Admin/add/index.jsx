@@ -30,7 +30,7 @@ const handleDone = async () =>{
     const checkForMissingData = () => {
       const roomLat = localStorage.getItem('Roomlat');
       const roomLong = localStorage.getItem('Roomlong');
-      if (roomLat === '0' || roomLong === '0' || images.length === 0) {
+      if (roomLat === '0' || roomLong === '0' || images.length === 0, data.description === "") {
         setMissing(true);
       } else {
         setMissing(false);

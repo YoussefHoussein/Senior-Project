@@ -134,6 +134,7 @@
     z-index: 1;
     overflow: hidden;
     cursor: not-allowed;
+    pointer-events: none;
 }
 .invalid-login::before{
     content: '';
