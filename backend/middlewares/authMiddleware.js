@@ -10,7 +10,8 @@ const authenticate = (req, res, next) => {
     }
     catch(err){
         res.json({
-            message : 'UnAuthorized'
+            message : 'UnAuthorized',
+            error : err
         })
     }
 }

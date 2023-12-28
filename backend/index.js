@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const  UserRoute = require('./routes/userRoute')
+const RoomRoute =require('./routes/roomRoute')
 
 mongoose.connect('mongodb://127.0.0.1:27017/senior_project_db');
 const db = mongoose.connection;
@@ -32,3 +33,4 @@ app.listen(8000, (err) => {
 
 app.use(cors());
 app.use('/api/user',UserRoute)
+app.use('/api/rooms',RoomRoute)
