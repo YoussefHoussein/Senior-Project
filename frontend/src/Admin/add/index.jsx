@@ -69,14 +69,7 @@ const handleDone = async () =>{
         <div className="upper-container flex">
           <div className="add-half add-left flex column flex-start align-center gap-10">
             <h1>Add Room</h1>
-            <input 
-                type="text" 
-                name="description" 
-                className='input-desc' 
-                value={data.description} 
-                placeholder='Description'
-                onChange={handleChange}
-            />
+            
             <div className="add-location-container">
               <DMap done={done}/>
             </div>
@@ -90,6 +83,16 @@ const handleDone = async () =>{
                 }&deg;
               </div>
             </div>
+            <textarea 
+              cols="30" 
+              rows="10"
+              type="text" 
+                name="description" 
+                className='input-desc' 
+                value={data.description} 
+                placeholder='Description'
+                onChange={handleChange}
+            ></textarea>
           </div>
           <div className="add-half add-right flex column flex-start align-center">
             <div className='images-container'>

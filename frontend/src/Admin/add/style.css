@@ -17,11 +17,11 @@
 }
 .input-desc{
     width: 60%;
-    height: 50px;
-    background-color: transparent;
+    /* height: 50px; */
+    /* background-color: transparent;
     border: none;
-    outline: none;
-    border-bottom: 2px solid black;
+    outline: none; */
+    /* border-bottom: 2px solid black; */
 }
 .add-location-container{
     width: 60%;
