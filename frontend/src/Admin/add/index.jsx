@@ -6,7 +6,7 @@ const Add = () => {
   return (
     <div className='add relative full'>
       <Navbar username={"Admin"}/>
-      <Sidebar items={["Home","Add","Chats"]} selected={"Add"}/>
+      <Sidebar items={["Add","Chats"]} selected={"Add"}/>
       <div className="add-body absolute body">Add</div>
     </div>
   )

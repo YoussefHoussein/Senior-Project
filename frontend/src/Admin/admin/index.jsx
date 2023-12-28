@@ -21,7 +21,7 @@ const ProtectedAdmin = () => {
               });
   
               if (response.data.message === 'authorized') {
-                  navigation("home")
+                  navigation("add")
               } else {
                   navigation("/")
               }
