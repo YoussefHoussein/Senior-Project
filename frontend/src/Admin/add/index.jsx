@@ -10,6 +10,7 @@ const Add = () => {
   const [imgCount, setImgCount] = useState(images.length)
   const [imgFull, setImgFull] = useState(false)
   const [missing, setMissing] = useState(false)
+  const [base64Images, setBase64Images] = useState([]);
   const [data, setData] = useState({
     description: "",
   })
@@ -18,8 +19,8 @@ const Add = () => {
 }
 const handleDone = async () =>{
   await setDone(true)
-  console.log("lat : "+localStorage.getItem('Roomlat'))
-  console.log("long : "+localStorage.getItem('Roomlong'))
+  // console.log("lat : "+localStorage.getItem('Roomlat'))
+  // console.log("long : "+localStorage.getItem('Roomlong'))
   setDone(false)
 }
   useEffect( () =>{
@@ -57,9 +58,45 @@ const handleDone = async () =>{
     fileInputRef.current.click()
   }
 
-  const handleSave = () =>{
+  const handleSave = async () => {
+    const promises = images.map((image) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
 
-  }
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+
+        reader.onerror = (error) => {
+          reject(error);
+        };
+
+        reader.readAsDataURL(image);
+      });
+    });
+
+    Promise.all(promises)
+      .then((base64Results) => {
+        setBase64Images(base64Results);
+        console.log('Base64 Images:', base64Results);
+        console.log('description'+data.description);
+        console.log("lat : "+localStorage.getItem('Roomlat'))
+        console.log("long : "+localStorage.getItem('Roomlong'))
+        
+      })
+      .catch((error) => {
+        console.error('Error converting images to Base64:', error);
+      });
+      const fnlData = ({
+        ...data,
+        latitude: localStorage.getItem('Roomlat'),
+        longitude: localStorage.getItem('Roomlong'),
+        images: base64Images
+      })
+      const response = await axios.post('http://127.0.0.1:8000/api/rooms/add',fnlData)
+      console.log(response)
+
+  };
 
   return (
     <div className='add relative full'>
