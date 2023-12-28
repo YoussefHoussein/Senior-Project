@@ -35,7 +35,16 @@
     height: 100vh;
 }
 .body{
+    width: calc(100% - 194px);
+    height: calc(100vh - 100px);
     top: 100px;
     left: 194px;
     z-index: 0;
+}
+
+.gap-10{
+    gap: 10px;
+}
+.cursor-pointer{
+    cursor: pointer;
 }

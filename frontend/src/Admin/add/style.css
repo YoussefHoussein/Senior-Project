@@ -1,0 +1,112 @@
+.add-half {
+    width: 50%;
+    height: 100%;
+}
+.upper-container{
+    width: 100%;
+    height: 90%;
+}
+.lower-container{
+    width: 100%;
+    height: 10%;
+}
+.submt-container{
+    width: 100%;
+    height: 10%;
+    background-color: blue;
+}
+.input-desc{
+    width: 60%;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid black;
+}
+.add-location-container{
+    width: 60%;
+    height: 50%;
+    border: 2px solid black;
+}
+.room-res{
+    width: 60%;
+}
+.done-button{
+    position: relative;
+    width: 30%;
+    height: 45px;
+    background: #fff;
+    border: 2px solid #219DB8;
+    outline: none;
+    border-radius: 45px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    z-index: 1;
+    overflow: hidden;
+}
+.done-button::before{
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 300%;
+    background: linear-gradient(black,#219DB8,#E8EDFF);
+    z-index: -1;
+    transition: .5s;
+}
+.done-button:hover::before{
+    top: 0%;
+}
+.cont{
+    width: 100%;
+    height: 20%;
+}
+.file-input-container{
+    width: 20%;
+    height: 50%;
+    border: 2px solid black;
+}
+.images-container{
+    width: 100%;
+    height: 80%;
+}
+.added-image{
+    width: 20%;
+    height: 25%;
+    margin-right: 10px;
+    margin-top: 20px;
+    margin-left: 20px;
+    object-fit: cover;
+}
+.img-full{
+    position: relative;
+    width: 30%;
+    height: 45px;
+    background: #fff;
+    border: 2px solid rgba(33, 157, 184, 0.5);
+    outline: none;
+    border-radius: 45px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+}
+.img-full::before{
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 300%;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(33, 157, 184, 0.5),rgba(232, 237, 255, 0.5));
+    z-index: -1;
+    transition: .5s;
+}
+.sve{
+    width: 20%;
+}

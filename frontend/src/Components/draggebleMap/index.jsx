@@ -11,7 +11,7 @@ L.Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
-const DMap = ({save}) => {
+const DMap = ({save, done}) => {
   const [position, setPosition] = useState([localStorage.getItem('latitude'),localStorage.getItem('longitude')])
   const markerRef = useRef(null)
   
@@ -35,15 +35,17 @@ const DMap = ({save}) => {
       localStorage.setItem('longitude',position.lng)
     }
     console.log("lat "+localStorage.getItem('latitude')+" lng "+localStorage.getItem('longitude'))
-    
-    
-
 };
-
+  const updateRoomLocation = () =>{
+    localStorage.setItem('Roomlat',position.lat)
+    localStorage.setItem('Roomlong',position.lng)
+  }
   if(save) {
     updateLocation()
   }
-  
+  if(done){
+    updateRoomLocation()
+  }
 
   return (
     <MapContainer
