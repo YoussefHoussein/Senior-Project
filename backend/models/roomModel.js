@@ -1,31 +1,29 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const imagesSchema = new Schema({
-    image:{
+const imageSchema = new Schema({
+    image: {
         type: String,
     }
-})
+});
 
 const roomSchema = new Schema({
-    features:{
+    features: {
         type: String,
     },
-    latitude:{
+    latitude: {
         type: Number,
     },
-    longitude:{
+    longitude: {
         type: Number,
     },
-    images: [imagesSchema] 
-})
-
-
+    images: [imageSchema]
+});
 
 const Room = mongoose.model('Room', roomSchema);
-const Image = mongoose.model('Image', imagesSchema);
+const Image = mongoose.model('Image', imageSchema);
 
 module.exports = {
-  Room,
-  Image
+    Room,
+    Image
 };

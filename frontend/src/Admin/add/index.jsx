@@ -3,6 +3,10 @@ import './style.css'
 import Navbar from '../../Components/navbar'
 import Sidebar from '../../Components/sidebar'
 import DMap from '../../Components/draggebleMap'
+import axios from 'axios'
+import ModalComponent from '../../Components/modal'
+
+
 const Add = () => {
   const [images, setImages] = useState([]);
   const [done, setDone] =useState(false)
@@ -14,13 +18,14 @@ const Add = () => {
   const [data, setData] = useState({
     description: "",
   })
+  const [open , setOpen] = useState(false);
+  const [error , setError] = useState("")
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
 }
 const handleDone = async () =>{
   await setDone(true)
-  // console.log("lat : "+localStorage.getItem('Roomlat'))
-  // console.log("long : "+localStorage.getItem('Roomlong'))
+  
   setDone(false)
 }
   useEffect( () =>{
@@ -57,8 +62,22 @@ const handleDone = async () =>{
   const handleDivClick = () =>{
     fileInputRef.current.click()
   }
+  
+  const openModal = () =>{
+    setOpen(true)
+  }
+  const closeModal = () =>{
+    setOpen(false)
+    localStorage.setItem('Roomlat', 0);
+    localStorage.setItem('Roomlong', 0);
+    setData({
+      description: ""
+    })
+    setImages([])
+  }
 
   const handleSave = async () => {
+    
     const promises = images.map((image) => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -74,27 +93,35 @@ const handleDone = async () =>{
         reader.readAsDataURL(image);
       });
     });
+    
+    const base64Results = await Promise.all(promises);
 
-    Promise.all(promises)
-      .then((base64Results) => {
-        setBase64Images(base64Results);
-        console.log('Base64 Images:', base64Results);
-        console.log('description'+data.description);
-        console.log("lat : "+localStorage.getItem('Roomlat'))
-        console.log("long : "+localStorage.getItem('Roomlong'))
-        
-      })
-      .catch((error) => {
-        console.error('Error converting images to Base64:', error);
+    setBase64Images(base64Results);
+    console.log('Base64 Images:', base64Results);
+    console.log('description' + data.description);
+    console.log('lat : ' + localStorage.getItem('Roomlat'));
+    console.log('long : ' + localStorage.getItem('Roomlong'));
+    
+    const fnlData = {
+      ...data,
+      latitude: localStorage.getItem('Roomlat'),
+      longitude: localStorage.getItem('Roomlong'),
+      base64Images: base64Results,
+    };
+      const token = localStorage.getItem('token');
+      const response = await axios.post('http://127.0.0.1:8000/api/rooms/add', fnlData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-      const fnlData = ({
-        ...data,
-        latitude: localStorage.getItem('Roomlat'),
-        longitude: localStorage.getItem('Roomlong'),
-        images: base64Images
-      })
-      const response = await axios.post('http://127.0.0.1:8000/api/rooms/add',fnlData)
-      console.log(response)
+      if(response.data.message == "room saved successfully"){
+        setError("")
+        openModal()
+      }
+      else{
+        setError(response.data.message)
+        openModal()
+      }
 
   };
 
@@ -159,6 +186,21 @@ const handleDone = async () =>{
           <button className={missing ? 'img-full sve' : 'done-button sve'} onClick={handleSave}>Save</button>
         </div>
       </div>
+      <ModalComponent 
+            openModal={open} 
+            onRequestClose={closeModal} 
+            posTop={'50'} 
+            posLeft={'50'} 
+            justifyContent={'center'} 
+            height={'40'} 
+            gap={'0'} 
+            backgroundColor={'#081B38'} 
+            color={'white'} 
+            width={'310'}
+          >
+            {error ? error : "Room saved Successfuly."}
+             
+          </ModalComponent>
     </div>
       
     
