@@ -107,6 +107,7 @@ const handleDone = async () =>{
       latitude: localStorage.getItem('Roomlat'),
       longitude: localStorage.getItem('Roomlong'),
       base64Images: base64Results,
+      userType: localStorage.getItem('userType')
     };
       const token = localStorage.getItem('token');
       const response = await axios.post('http://127.0.0.1:8000/api/rooms/add', fnlData, {
