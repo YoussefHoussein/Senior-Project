@@ -5,7 +5,7 @@ import Sidebar from '../../Components/sidebar'
 const Chats = () => {
   return (
     <div className='chats relative full'>
-      <Navbar username={"Admin"}/>
+      <Navbar admin={true}/>
       <Sidebar items={["Add","Chats"]} selected={"Chats"}/>
       <div className="chats-body absolute body">Chats</div>
     </div>

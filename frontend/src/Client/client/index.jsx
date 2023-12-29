@@ -4,6 +4,10 @@ import {useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 const ProtectedClient  = () => {
     const navigation = useNavigate();
+    useEffect( () =>{
+        localStorage.setItem('Roomlat', 0);
+        localStorage.setItem('Roomlong', 0);
+      }, [])
   useEffect(() => {
     const verifyToken = async () => {
         try {

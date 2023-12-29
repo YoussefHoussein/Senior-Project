@@ -12,7 +12,7 @@ import { CiUser } from "react-icons/ci";
 import DMap from '../draggebleMap'
 import axios from 'axios'
 import {useNavigate } from "react-router-dom";
-const Navbar = ({notifications}) => {
+const Navbar = ({notifications, admin}) => {
   const navigation = useNavigate();
 
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
@@ -60,8 +60,7 @@ const Navbar = ({notifications}) => {
 
   const handleSave = async () => {
     await setSave(true)
-    // setLongitude(localStorage.getItem('longitude'))
-    // setLatitude(localStorage.getItem('latitude'))
+
     const finalData = ({
       ...data,
       latitude: localStorage.getItem('latitude'),
@@ -138,10 +137,10 @@ const Navbar = ({notifications}) => {
         <ModalComponent 
           openModal={openUser} 
           onRequestClose={closeUserModal} 
-          posTop={'50'} 
+          posTop={admin ? '40' : '50'} 
           posLeft={'88'} 
           justifyContent={'flex-start'} 
-          height={'70'} 
+          height={ admin ? '50' : '70'}  
           gap={'20'} 
           backgroundColor={'#081B38'} 
           color={'white'} 
@@ -154,9 +153,12 @@ const Navbar = ({notifications}) => {
             <div className="info-container flex center">
               <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
-            <div className="location flex center">
-              <Map />
-            </div>
+            {
+              admin ? <div> </div> : 
+              <div className="location flex center">
+                <Map />
+              </div>
+            }
             <button className='edit-info' onClick={openEditModal}>Edit</button>
         </ModalComponent>
         <ModalComponent 
@@ -165,7 +167,7 @@ const Navbar = ({notifications}) => {
           posTop={'50'} 
           posLeft={'50'} 
           justifyContent={'flex-start'} 
-          height={'70'} 
+          height={ admin ? '40' : '70'} 
           gap={'10'} 
           backgroundColor={'#fff'} 
           color={'black'} 
@@ -178,9 +180,13 @@ const Navbar = ({notifications}) => {
             <div className="info-container flex center">
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
-            <div className="edit-location flex center">
+            {
+              admin ? <div> </div> : 
+              <div className="edit-location flex center">
                 <DMap save={save}/>
-            </div>
+              </div>
+            }
+            
             <button className='edit-info' onClick={handleSave}>Save</button>
         </ModalComponent>
       </div>

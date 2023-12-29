@@ -128,7 +128,7 @@ const handleDone = async () =>{
 
   return (
     <div className='add relative full'>
-      <Navbar username={"Admin"}/>
+      <Navbar admin={true}/>
       <Sidebar items={["Add","Chats"]} selected={"Add"}/>
       <div className="add-body absolute body flex column">
         <div className="upper-container flex">

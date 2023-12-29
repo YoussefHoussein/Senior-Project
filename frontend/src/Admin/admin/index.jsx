@@ -5,6 +5,10 @@ import { useEffect } from 'react';
 
 const ProtectedAdmin = () => {
     const navigation = useNavigate();
+    useEffect( () =>{
+        localStorage.setItem('Roomlat', 0);
+        localStorage.setItem('Roomlong', 0);
+      }, [])
     useEffect(() => {
       const verifyToken = async () => {
           try {
