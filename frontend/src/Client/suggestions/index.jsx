@@ -3,6 +3,7 @@ import './style.css'
 import Navbar from '../../Components/navbar'
 import Sidebar from '../../Components/sidebar'
 import Map from '../../Components/map'
+import SuggestionCard from '../../Components/suggestionCard'
 const Suggestions = () => {
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
@@ -13,6 +14,31 @@ const Suggestions = () => {
       <div className="client-home-container absolute body">
         <Map />
       </div>
+      <div className='suggestions-cont flex column gap-10'>
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+        <SuggestionCard />
+      </div>
+     
     </div>
   )
 }

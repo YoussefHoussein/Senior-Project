@@ -1,0 +1,21 @@
+.sug-card-container{
+    width: 95%;
+    min-height: 200px;
+    border: 2px solid #081B38;
+    background-color: #E8EDFF;
+    border-radius: 20px;
+    font-weight: bold;
+    z-index: 0;
+    cursor: pointer;
+}
+.room-img-cont{
+    width: 90%;
+    height: 70%;
+    border-radius: 10px;
+    border: 1px solid black;
+}
+.room-desc-cont{
+    width: 90%;
+    height: 10%;
+    border-bottom: 1px solid black;
+}
