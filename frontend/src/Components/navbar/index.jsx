@@ -129,18 +129,21 @@ const Navbar = ({notifications, admin}) => {
             <p>You have no notification this moment!!</p> 
           </ModalComponent>
         }
+        {
+          admin ? username: 
+          <div className="user flex" onClick={openUserModal}>
+            {username}
+            <div className="username-circle flex center"> <CiUser className='user-icons'/></div>
+          </div>
+        }
         
-        <div className="user flex" onClick={openUserModal}>
-          {username}
-          <div className="username-circle flex center"> <CiUser className='user-icons'/></div>
-        </div>
         <ModalComponent 
           openModal={openUser} 
           onRequestClose={closeUserModal} 
-          posTop={admin ? '40' : '50'} 
+          posTop={'50'} 
           posLeft={'88'} 
           justifyContent={'flex-start'} 
-          height={ admin ? '50' : '70'}  
+          height={'70'} 
           gap={'20'} 
           backgroundColor={'#081B38'} 
           color={'white'} 
@@ -153,12 +156,9 @@ const Navbar = ({notifications, admin}) => {
             <div className="info-container flex center">
               <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
-            {
-              admin ? <div> </div> : 
-              <div className="location flex center">
-                <Map />
-              </div>
-            }
+            <div className="location flex center">
+              <Map />
+            </div>
             <button className='edit-info' onClick={openEditModal}>Edit</button>
         </ModalComponent>
         <ModalComponent 
@@ -167,7 +167,7 @@ const Navbar = ({notifications, admin}) => {
           posTop={'50'} 
           posLeft={'50'} 
           justifyContent={'flex-start'} 
-          height={ admin ? '40' : '70'} 
+          height={'70'} 
           gap={'10'} 
           backgroundColor={'#fff'} 
           color={'black'} 
@@ -180,13 +180,9 @@ const Navbar = ({notifications, admin}) => {
             <div className="info-container flex center">
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
-            {
-              admin ? <div> </div> : 
-              <div className="edit-location flex center">
+            <div className="edit-location flex center">
                 <DMap save={save}/>
-              </div>
-            }
-            
+            </div>
             <button className='edit-info' onClick={handleSave}>Save</button>
         </ModalComponent>
       </div>
