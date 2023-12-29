@@ -2,13 +2,38 @@ const Room = require('../models/roomModel').Room
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require("bcrypt");
+
+const  generateRandomPassword = (length) => {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let password = "";
+    
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset.charAt(randomIndex);
+    }
+    
+    return password;
+  }
+
 const addRoom = async (req, res, next) =>{
+    const passwordLength = 12; 
+    const randomPassword = generateRandomPassword(passwordLength);
+    
+    const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
     const roomImagesDir = path.resolve(process.cwd(), 'room_images');
     if (!fs.existsSync(roomImagesDir)) {
         fs.mkdirSync(roomImagesDir);
         console.log('Created "room_images" directory');
     }
-    const {description, latitude, longitude, base64Images} = req.body;
+    const {description, latitude, longitude, base64Images, userType} = req.body;
+    if(userType === 2){
+        res.json({
+            message: "You can not handle this process"
+        });
+        return;
+    }
     try{
         if (latitude === 0 && longitude === 0) {
             res.json({
@@ -59,6 +84,7 @@ const addRoom = async (req, res, next) =>{
             images: savedImageObjects,
             latitude,
             longitude,
+            password: hashedPassword
           })
       
         const savedRoom = await roomData.save();

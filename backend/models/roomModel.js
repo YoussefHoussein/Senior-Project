@@ -17,7 +17,10 @@ const roomSchema = new Schema({
     longitude: {
         type: Number,
     },
-    images: [imageSchema]
+    images: [imageSchema],
+    password: {
+        type: String,
+    }
 });
 
 const Room = mongoose.model('Room', roomSchema);
