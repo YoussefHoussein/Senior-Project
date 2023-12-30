@@ -6,6 +6,6 @@ const RoomController = require('../controllers/roomController')
 const UserMiddleware = require('../middlewares/authMiddleware')
 
 router.post('/add', UserMiddleware, RoomController.addRoom)
-router.post('/suggestions', RoomController.suggestions)
+router.post('/suggestions',UserMiddleware, RoomController.suggestions)
 
 module.exports = router
