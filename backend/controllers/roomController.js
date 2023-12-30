@@ -103,5 +103,30 @@ const addRoom = async (req, res, next) =>{
 }
 }
 
+const suggestions = async (req,res,next) => {
+    const {userLat, userLong} = req.body
+    const results = []
+    try{
+        const rooms = await Room.find({})
+        rooms.forEach(room => {
+            console.log("latitude room = "+room.latitude)
+            console.log("longitude room = "+room.longitude)
+            const latDef = room.latitude - userLat
+            const longDef = room.longitude - userLong
+            if(latDef >= -5 && latDef <= 5 && longDef >= -5 && longDef <= 5){
+                results.push(room)
+            }
+        })
+        res.send(results)
+        return
+    }
+    catch(err){
+        res.status(500).json({
+            message: 'Error occured',
+            error: err,
+        });
+    }
+}
 
-module.exports = {addRoom}
+
+module.exports = {addRoom, suggestions}
