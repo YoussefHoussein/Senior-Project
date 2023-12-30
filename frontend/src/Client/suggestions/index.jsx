@@ -31,9 +31,7 @@ const Suggestions = () => {
 
     fetchData()
   }, [])
-  const getImageUrlFromBase64 = (base64String) => {
-    return `data:image/png;base64,${base64String}`;
-  };
+  
   return (
     <div className='suggestions relative full'>
       <Navbar username={"Youssef"} />
@@ -47,7 +45,7 @@ const Suggestions = () => {
             <SuggestionCard 
               latitude={room.latitude} 
               longitude={room.longitude} 
-              image={getImageUrlFromBase64(room.images[0].image)} 
+              images={room.images} 
               features={room.features}/>
           ))
         }

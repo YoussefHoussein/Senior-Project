@@ -7,7 +7,7 @@
     
 }
 .suggestions-cont{
-    width: 350px;
+    width: 400px;
     height: calc(100% - 130px);
     position: absolute;
     right: 10px;
