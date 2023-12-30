@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 const imageSchema = new Schema({
     image: {
         type: String,
-    }
+    },
+    folderName: {
+        type: String,
+    },
 });
 
 const roomSchema = new Schema({
@@ -21,7 +24,11 @@ const roomSchema = new Schema({
     password: {
         type: String,
     }
-});
+}, 
+    {
+    timestamps: true,
+    }
+);
 
 const Room = mongoose.model('Room', roomSchema);
 const Image = mongoose.model('Image', imageSchema);

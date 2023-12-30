@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require('uuid');
 
 const  generateRandomPassword = (length) => {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -66,17 +67,17 @@ const addRoom = async (req, res, next) =>{
             return
         }
 
-        const roomFolder = path.join(roomImagesDir, `room_${Date.now()}`);
+        const roomFolder = path.join(roomImagesDir, `room_${uuidv4()}`);
         fs.mkdirSync(roomFolder);
 
         const savedImageObjects = base64Images.map((base64Image, index) => {
             const imageBuffer = Buffer.from(base64Image.split(',')[1], 'base64');
             const imageName = `image_${index + 1}.png`;
             const imagePath = path.join(roomFolder, imageName);
-
+        
             fs.writeFileSync(imagePath, imageBuffer);
-
-            return { image: imageName };
+        
+            return { image: imageName, folderName: roomFolder }; 
         });
 
           const roomData = new Room({
@@ -102,31 +103,68 @@ const addRoom = async (req, res, next) =>{
         });
 }
 }
+const getRoomImagesAsBase64 = async (room) => {
+    const imagePromises = room.images.map(async (image) => {
+        if (!image.folderName || !image.image) {
+            console.error('Invalid image object:', image);
+            return null;
+        }
 
-const suggestions = async (req,res,next) => {
-    const {userLat, userLong} = req.body
-    const results = []
-    try{
-        const rooms = await Room.find({})
-        rooms.forEach(room => {
-            console.log("latitude room = "+room.latitude)
-            console.log("longitude room = "+room.longitude)
-            const latDef = room.latitude - userLat
-            const longDef = room.longitude - userLong
-            if(latDef >= -5 && latDef <= 5 && longDef >= -5 && longDef <= 5){
-                results.push(room)
-            }
-        })
-        res.send(results)
-        return
-    }
-    catch(err){
+        const imagePath = path.join(image.folderName, image.image);
+
+        console.log('Processing image:', imagePath);
+
+        try {
+            const imageBuffer = fs.readFileSync(imagePath);
+            const base64Image = imageBuffer.toString('base64');
+            return {
+                image: base64Image,
+            };
+        } catch (err) {
+            console.error(`Error reading image file ${image.image} in folder ${image.folderName}:`, err);
+            return null;
+        }
+    });
+
+    const images = await Promise.all(imagePromises);
+    return images.filter(Boolean); 
+};
+
+
+
+
+
+
+const suggestions = async (req, res, next) => {
+    const { userLat, userLong } = req.body;
+
+    try {
+        const rooms = await Room.find({});
+
+        const results = await Promise.all(
+            rooms
+                .filter(room => Math.abs(room.latitude - userLat) <= 5 && Math.abs(room.longitude - userLong) <= 5)
+                .map(async (room) => {
+                    const roomWithImages = {
+                        ...room.toObject(),
+                        images: await getRoomImagesAsBase64(room),
+                    };
+
+                    return roomWithImages;
+                })
+        );
+
+        res.json(results);
+        return;
+    } catch (err) {
+        console.error('Error fetching suggestions:', err);
         res.status(500).json({
-            message: 'Error occured',
+            message: 'Error occurred',
             error: err,
         });
     }
-}
+};
+
 
 
 module.exports = {addRoom, suggestions}
