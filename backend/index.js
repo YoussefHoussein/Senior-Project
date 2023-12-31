@@ -8,7 +8,7 @@ const path = require('path');
 
 const  UserRoute = require('./routes/userRoute')
 const RoomRoute =require('./routes/roomRoute')
-
+const BookingRoute = require('./routes/bookingRoute')
 
 mongoose.connect('mongodb://127.0.0.1:27017/senior_project_db');
 const db = mongoose.connection;
@@ -36,6 +36,7 @@ if (!fs.existsSync(roomImagesDir)) {
 
 app.use('/api/user',UserRoute)
 app.use('/api/rooms',RoomRoute)
+app.use('/api/booking',BookingRoute)
 
 app.use((err, req, res, next) => {
   console.error(err);
