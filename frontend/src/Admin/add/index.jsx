@@ -199,6 +199,7 @@ const handleDone = async () =>{
             color={'white'} 
             width={'310'}
             direction={'column'}
+            alignItems={'center'}
           >
             {error ? error : "Room saved Successfuly."}
              

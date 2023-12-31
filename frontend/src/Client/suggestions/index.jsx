@@ -7,13 +7,20 @@ import SuggestionCard from '../../Components/suggestionCard'
 import axios from 'axios'
 import ModalComponent from '../../Components/modal'
 import ImageSlider from '../../Components/imageSlider'
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { addMonths } from 'date-fns';
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
 const Suggestions = () => {
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
   const [suggestions, setSuggestions] = useState([]);
   const [selectedSuggestion, setSelectedSuggestion] = useState(null);
   const [openVisit, setOpenVisit] = useState(false)
-
+  const [date, setDate] = useState(new Date());
+  const [value, onChange] = useState('10:00');
   const openVisitModal = () =>{
     setOpenVisit(true)
   }
@@ -78,11 +85,12 @@ const Suggestions = () => {
             posTop={'50'} 
             posLeft={'50'} 
             justifyContent={'flex-start'} 
-            height={'80'} gap={'0'} 
-            backgroundColor={'#081B38'} 
-            color={'white'} 
+            height={'60'} gap={'0'} 
+            backgroundColor={'white'} 
+            color={'#081B38'} 
             width={'1000'}
             direction={'row'}
+            alignItems={'flex-start'}
           >
             <div className="room-details flex column flex-start align-center gap-50">
               <div className="room-img-container">
@@ -104,10 +112,26 @@ const Suggestions = () => {
               )}
               </div>
             </div>
-            <div className="room-book flex column flex-start align-center gap-10">
-              <div className="room-available-slots"></div>
-              <div className="book-results"></div>
-              <div className="done-btn"></div>
+            <div className="room-book flex column spaceBetween align-center">
+              <div className="room-available-slots flex center">
+                <Calendar 
+                  onChange={setDate} 
+                  value={date} 
+                  className={'react-calendar'}
+                  minDate={new Date()}
+                  maxDate={addMonths(new Date(), 1)}
+                  next2Label= ''
+                  prev2Label=''
+
+                />
+              </div>
+              <div className="book-results flex center gap-50">
+                {date.toDateString()}
+                <TimePicker onChange={onChange} value={value} />
+              </div>
+              <div className="done-btn-container flex center">
+                <button className='done-btn'>Book</button>
+              </div>
             </div>
           </ModalComponent>
     </div>

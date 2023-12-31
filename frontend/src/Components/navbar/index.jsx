@@ -106,6 +106,7 @@ const Navbar = ({notifications, admin}) => {
             color={'white'} 
             width={'300'}
             direction={'column'}
+            alignItems={'center'}
           >
               {notifications?.map((notification, index) => {
               return (
@@ -126,6 +127,7 @@ const Navbar = ({notifications, admin}) => {
             color={'white'} 
             width={'300'}
             direction={'column'}
+            alignItems={'center'}
           >
             <LuMailWarning className='empty-icon'/>
             <p>You have no notification this moment!!</p> 
@@ -151,6 +153,7 @@ const Navbar = ({notifications, admin}) => {
           color={'white'} 
           width={'300'}
           direction={'column'}
+          alignItems={'center'}
         >
             <div className="user-img flex center"><CiUser className='user-icons'/></div>
             <div className="info-container flex center">
@@ -176,6 +179,7 @@ const Navbar = ({notifications, admin}) => {
           color={'black'} 
           width={'450'}
           direction={'column'}
+          alignItems={'center'}
         >
             <div className="user-img flex center"><CiUser className='user-icons'/></div>
             <div className="info-container flex center">
