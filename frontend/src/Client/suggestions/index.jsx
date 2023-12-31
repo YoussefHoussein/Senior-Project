@@ -57,6 +57,7 @@ const Suggestions = () => {
               images={room.images} 
               features={room.features}
               onClick ={() => handleSuggestionCardClick(room.latitude, room.longitude)}
+              selected={selectedSuggestion && selectedSuggestion.latitude === room.latitude && selectedSuggestion.longitude === room.longitude}
             />
           ))
         }

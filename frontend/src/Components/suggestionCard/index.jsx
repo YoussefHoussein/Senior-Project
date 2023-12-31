@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import './style.css'
 import ImageSlider from '../imageSlider';
 import { useEffect } from 'react';
-const SuggestionCard = ({latitude,longitude,images,features, onClick}) => {
+const SuggestionCard = ({latitude,longitude,images,features, onClick, selected}) => {
   const [convertedImages, setConvertedImages] = useState([]);
+
   useEffect(() => {
     const convertImages = () => {
       const getImageUrlFromBase64 = (base64String) => {
@@ -20,7 +21,7 @@ const SuggestionCard = ({latitude,longitude,images,features, onClick}) => {
     onClick(latitude,longitude);
   }
   return (
-    <div className='sug-card-container flex column center' onClick={handleCardClicked}>
+    <div className={selected ? 'sug-card-container flex column center selected': 'sug-card-container flex column center'} onClick={handleCardClicked}>
       <div className="room-img-cont">
         <ImageSlider images={convertedImages} />
       </div>
