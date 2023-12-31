@@ -12,32 +12,32 @@
 }
 .room-img-cont{
     width: 100%;
-    height: 70%;
-    border-radius: 10px;
+    height: 80%;
     overflow: hidden;
 }
-.room-desc-cont{
-    width: 100%;
-    height: 10%;
-    
-}
+
 .sugg-img{
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
+.room-desc-cont{
+    width: 100%;
+    height: 20%;
+}
+
 .moving-desc{
     display: inline-block;
     white-space: nowrap;
-    animation: moveDesc 60s linear infinite; 
+    animation: moveDesc 40s linear infinite; 
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: 20px;
 }
 @keyframes moveDesc {
     0% {
-      transform: translateX(30%);
+      transform: translateX(100%);
     }
     100% {
       transform: translateX(-100%); 

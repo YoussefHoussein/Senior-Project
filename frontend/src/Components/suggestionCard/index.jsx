@@ -18,11 +18,11 @@ const SuggestionCard = ({latitude,longitude,images,features}) => {
     convertImages();
   }, [images]);
   return (
-    <div className='sug-card-container flex column center gap-10'>
+    <div className='sug-card-container flex column center'>
       <div className="room-img-cont">
         <ImageSlider images={convertedImages} />
       </div>
-      <div className="room-desc-cont">
+      <div className="room-desc-cont flex center">
         <span className='moving-desc'>{features}</span>
       </div>
     </div>
