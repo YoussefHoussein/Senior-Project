@@ -143,7 +143,7 @@ const suggestions = async (req, res, next) => {
 
         const results = await Promise.all(
             rooms
-                .filter(room => Math.abs(room.latitude - userLat) <= 5 && Math.abs(room.longitude - userLong) <= 5)
+                .filter(room => Math.abs(room.latitude - userLat) <= 2 && Math.abs(room.longitude - userLong) <= 2)
                 .map(async (room) => {
                     const roomWithImages = {
                         ...room.toObject(),
