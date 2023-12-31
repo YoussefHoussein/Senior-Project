@@ -15,17 +15,45 @@
     overflow: auto;
 }
 
-.return-btn{
+.visit-btn{
     position: absolute;
-    left: 200px;
+    left: 210px;
     bottom: 20px;
     cursor: pointer;
-    width: 200px;
+    width: 100px;
     height: 50px;
     background-color: #081B38;
     color: #E8EDFF;
     outline: none;
-    border: 2px solid blue;
     border-radius: 20px;
+}
 
+.room-details{
+    width: 50%;
+    height: 100%;
+}
+.room-img-container{
+    width: 100%;
+    height: 64%;
+}
+.room-feat-container{
+    width: 100%;
+    height: 35%;
+}
+
+.room-book{
+    width: 50%;
+    height: 100%;
+}
+.room-available-slots{
+    width: 100%;
+    height: 64%;
+}
+.book-results{
+    width: 100%;
+    height: 15%;
+}
+.done-btn{
+    width: 100%;
+    height: 15%;
 }

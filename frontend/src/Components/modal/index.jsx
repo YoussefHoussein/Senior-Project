@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from 'react-modal'
-const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justifyContent,height,gap,backgroundColor, color, width}) => {
+const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justifyContent,height,gap,backgroundColor, color, width,direction}) => {
     const customStyles = {
         content: {
             top: `${posTop}%`,
@@ -14,7 +14,7 @@ const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justif
             padding: '20px',
             overflow: 'auto',
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: `${direction}`,
             justifyContent: `${justifyContent}`,
             alignItems: 'center',
             gap: `${gap}px`,

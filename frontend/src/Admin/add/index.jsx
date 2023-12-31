@@ -198,6 +198,7 @@ const handleDone = async () =>{
             backgroundColor={'#081B38'} 
             color={'white'} 
             width={'310'}
+            direction={'column'}
           >
             {error ? error : "Room saved Successfuly."}
              
