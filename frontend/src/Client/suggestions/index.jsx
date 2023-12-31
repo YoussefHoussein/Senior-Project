@@ -9,6 +9,8 @@ const Suggestions = () => {
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
   const [suggestions, setSuggestions] = useState([]);
+  const [selectedSuggestion, setSelectedSuggestion] = useState(null);
+
   useEffect(() => {
     const fetchData = async () =>{
       try{
@@ -31,13 +33,20 @@ const Suggestions = () => {
 
     fetchData()
   }, [])
-  
+
+  const handleSuggestionCardClick = (latitude, longitude) =>{
+    setSelectedSuggestion({
+      latitude,
+      longitude,
+      isSelected: true,
+    });
+  }
   return (
     <div className='suggestions relative full'>
-      <Navbar username={"Youssef"} />
+      <Navbar  />
       <Sidebar items={["Home","Suggestions","Slots","Statistics","Support"]} selected={"Suggestions"}/>
       <div className="client-home-container absolute body">
-        <Map />
+        <Map selectedSuggestion={selectedSuggestion} />
       </div>
       <div className='suggestions-cont flex column gap-10'>
         {
@@ -46,11 +55,13 @@ const Suggestions = () => {
               latitude={room.latitude} 
               longitude={room.longitude} 
               images={room.images} 
-              features={room.features}/>
+              features={room.features}
+              onClick ={() => handleSuggestionCardClick(room.latitude, room.longitude)}
+            />
           ))
         }
       </div>
-     
+      
     </div>
   )
 }

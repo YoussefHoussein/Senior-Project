@@ -14,3 +14,18 @@
     top: 115px;
     overflow: auto;
 }
+
+.return-btn{
+    position: absolute;
+    left: 200px;
+    bottom: 20px;
+    cursor: pointer;
+    width: 200px;
+    height: 50px;
+    background-color: #081B38;
+    color: #E8EDFF;
+    outline: none;
+    border: 2px solid blue;
+    border-radius: 20px;
+
+}
