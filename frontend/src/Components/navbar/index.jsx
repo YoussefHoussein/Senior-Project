@@ -20,6 +20,12 @@ const Navbar = ({notifications, admin}) => {
   const [email, setEmail] = useState(localStorage.getItem('email'))
   const [username, setUsername] = useState(localStorage.getItem('userName'))
 
+  const [searchData, setSearchData] = useState("")
+
+  const handleSearch = (e) =>{
+    setSearchData(e.target.value)
+  }
+
   const [save, setSave] = useState(false)
 
   const [openNotification,SetOpenNotification] = useState(false)
@@ -87,7 +93,7 @@ const Navbar = ({notifications, admin}) => {
       </div>
       <div className="search-container flex">
         <AiOutlineSearch className='icon'/>
-        <input type="text" name="search" className='search-input' placeholder='Click to Search'/>
+        <input type="text" name="search" value={searchData} onChange={handleSearch} className='search-input' placeholder='Click to Search'/>
       </div>
       <div className="user-icon flex spaceAround">
         <div className="notification" onClick={openNotificationModal}>
