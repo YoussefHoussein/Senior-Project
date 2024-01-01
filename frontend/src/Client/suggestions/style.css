@@ -50,6 +50,10 @@
     width: 100%;
     height: 10%;
 }
+.set-time{
+    width: 70%;
+    height: 10%;
+}
 .done-btn-container{
     width: 90%;
     height: 10%;
@@ -172,3 +176,10 @@
     background: #6f48eb;
     color: white;
    }
+select{
+    width: 30%;
+    height: 100%;
+}
+.time-picker{
+    height: 100%;
+}
