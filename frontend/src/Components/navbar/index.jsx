@@ -21,9 +21,41 @@ const Navbar = ({notifications, admin}) => {
   const [username, setUsername] = useState(localStorage.getItem('userName'))
 
   const [searchData, setSearchData] = useState("")
-
-  const handleSearch = (e) =>{
+  const [openSearch, setOpenSearch] = useState(false)
+  const [searchResult, setSearchResult] = useState("")
+  const openSearchModal = () =>{
+    setOpenSearch(true)
+  }
+  const closeSearchModal = () =>{
+    setOpenSearch(false)
+  }
+  const handleSearchChange = (e) =>{
     setSearchData(e.target.value)
+  }
+
+  const containsOnlyNumbers = (str) => [...str].every((char) => !isNaN(char));
+
+  const handleSearch = async () =>{
+    const location = searchData.split(' ')
+    location.forEach(element => {
+      if(!containsOnlyNumbers(element)){
+        setSearchResult('Please enter the data like this: 35 35 . leave a space between numbers')
+        openSearchModal()
+        setSearchData("")
+        return
+      }
+    });
+    const token = localStorage.getItem('token');
+    const data =({
+      userLat: parseFloat(location[0]),
+      userLong: parseFloat(location[1]),
+    })
+    const response = await axios.post('http://127.0.0.1:8000/api/rooms/suggestions',data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+    }); 
+    openSearchModal()
   }
 
   const [save, setSave] = useState(false)
@@ -92,8 +124,8 @@ const Navbar = ({notifications, admin}) => {
         <h2>Map Your Nap</h2>
       </div>
       <div className="search-container flex">
-        <AiOutlineSearch className='icon'/>
-        <input type="text" name="search" value={searchData} onChange={handleSearch} className='search-input' placeholder='Click to Search'/>
+        <AiOutlineSearch className='icon search-icon'onClick={handleSearch} title='click to search'/>
+        <input type="text" name="search" value={searchData} onChange={handleSearchChange} className='search-input' placeholder='enter latitude and longitude(e.g. 35 35)'/>
       </div>
       <div className="user-icon flex spaceAround">
         <div className="notification" onClick={openNotificationModal}>
@@ -200,6 +232,21 @@ const Navbar = ({notifications, admin}) => {
             <button className='edit-info' onClick={handleSave}>Save</button>
         </ModalComponent>
       </div>
+      <ModalComponent 
+            openModal={openSearch} 
+            onRequestClose={closeSearchModal} 
+            posTop={'40'} 
+            posLeft={'50'} 
+            justifyContent={'center'} 
+            height={'50'} gap={'0'} 
+            backgroundColor={'white'} 
+            color={'#081B38'} 
+            width={'300'}
+            direction={'column'}
+            alignItems={'center'}
+          >
+            {searchResult}
+          </ModalComponent>
     </div>
   )
 }
