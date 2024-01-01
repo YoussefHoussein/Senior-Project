@@ -18,10 +18,10 @@ const bookingSchema = new Schema({
         type: Date,
         required: true,
     },
-    duration: {
-        type: Number,
+    endDate: {
+        type: Date,
         required: true,
-    }
+    },
 });
 
 const Booking = mongoose.model('Booking', bookingSchema);

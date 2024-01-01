@@ -7,66 +7,57 @@ const createBooking = async (req,res,next) =>{
     const user_Id = decoded._id
     
     try{
-        const endDate = new Date(new Date(date).getTime() + duration * 60 * 60 * 1000);
-
-        const existingBookings = await Booking.find({
+        const startDate = new Date(date)
+        const endDate = new Date(startDate.getTime() + duration * 60 * 60 * 1000);
+        
+        const overlappingBookings = await Booking.find({
             room: room_id,
             $or: [
                 {
-                    date: { $lt: new Date(date) }, 
-                    endDate: { $gt: new Date(date) }, 
-                },
-                {
-                    date: { $lt: endDate }, 
-                    endDate: { $gt: endDate }, 
-                },
-                {
-                    date: { $gte: new Date(date) }, 
-                    endDate: { $lte: endDate }, 
+                    date: { $lte: endDate },
+                    endDate: { $gte: startDate },
                 },
             ],
         });
-        const existingUserBookings = await Booking.find({
-            room: user_Id,
+        const overlappingUserBookings = await Booking.find({
+            user: user_Id,
             $or: [
                 {
-                    date: { $lt: new Date(date) }, 
-                    endDate: { $gt: new Date(date) }, 
-                },
-                {
-                    date: { $lt: endDate }, 
-                    endDate: { $gt: endDate }, 
-                },
-                {
-                    date: { $gte: new Date(date) }, 
-                    endDate: { $lte: endDate }, 
+                    date: { $lte: endDate },
+                    endDate: { $gte: startDate },
                 },
             ],
         });
-        if (existingBookings.length > 0) {
+        if (overlappingBookings.length > 0) {
             res.json({
-                message:'room already booked in this time'
-            })
-            return 
+                message: 'Room already booked in this time',
+            });
+            return;
         }
-        if (existingUserBookings.length > 0) {
+        if (overlappingUserBookings.length > 0) {
             res.json({
-                message:'you have already room in this time'
-            })
-            return 
+                message: 'You have already booking in this time',
+            });
+            return;
         }
+        
         const newBooking = new Booking({
             room: room_id,
             user: user_Id,
             date: new Date(date),
-            duration: duration
+            endDate: endDate,
         });
     
         await newBooking.save()
 
         res.json({
             message: "booking saved successfully",
-            room: newBooking,
+            room: {
+                room: newBooking.room,
+                user: newBooking.user,
+                date: newBooking.date.toLocaleString(),
+                endDate: newBooking.endDate.toLocaleString(),
+            },
         })
         return
     }
