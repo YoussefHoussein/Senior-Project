@@ -4,6 +4,7 @@
     border: 2px solid black;
     border-radius: 20px;
     overflow: hidden;
+    background-color: #E8EDFF;
 }
 .slot-image{
     width: 100%;

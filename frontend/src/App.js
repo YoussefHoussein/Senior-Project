@@ -4,7 +4,6 @@ import './utilities.css'
 import Login from './Auth/login';
 import ClientHome from "./Client/home";
 import Slots from "./Client/slots";
-import Statistics from "./Client/statistics";
 import Suggestions from "./Client/suggestions"
 import Support from "./Client/support"
 import Add from "./Admin/add";
@@ -20,7 +19,6 @@ function App() {
         <Route path='/client' element={<ProtectedClient />}/>
         <Route path='/client/home' element={<ClientHome />}/>
         <Route path='/client/slots' element={<Slots />}/>
-        <Route path='/client/statistics' element={<Statistics />}/>
         <Route path='/client/suggestions' element={<Suggestions />}/>
         <Route path='/client/support' element={<Support />}/>
         <Route path='/admin' element={<ProtectedAdmin />}/>
