@@ -24,6 +24,7 @@ const Navbar = ({notifications, admin}) => {
   const [searchData, setSearchData] = useState("")
   const [openSearch, setOpenSearch] = useState(false)
   const [searchResult, setSearchResult] = useState("")
+  const [searchResultObject , setSearchResultObject] = useState([])
   const openSearchModal = () =>{
     setOpenSearch(true)
   }
@@ -37,6 +38,7 @@ const Navbar = ({notifications, admin}) => {
   const containsOnlyNumbers = (str) => [...str].every((char) => !isNaN(char));
 
   const handleSearch = async () =>{
+    setSearchResult("")
     if(searchData === ""){
       setSearchResult('Please enter the data like this: 35 35 . leave a space between numbers')
       openSearchModal()
@@ -60,7 +62,16 @@ const Navbar = ({notifications, admin}) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-    }); 
+    });
+    if(response.data.length === 0){
+      setSearchResult('The location you requested has no near rooms.')
+      openSearchModal()
+      setSearchData("")
+      return
+    }
+    setSearchResultObject(response.data)
+    setSearchData("")
+    console.log(response.data)
     openSearchModal()
   }
 
@@ -244,14 +255,24 @@ const Navbar = ({notifications, admin}) => {
             posTop={'40'} 
             posLeft={'50'} 
             justifyContent={'flex-start'} 
-            height={'50'} gap={'0'} 
+            height={'50'} gap={'10'} 
             backgroundColor={'white'} 
             color={'#081B38'} 
             width={'300'}
             direction={'column'}
             alignItems={'center'}
           >
-            {searchResult}
+            {searchResultObject.map((room,index)=>(
+              <SearchCard 
+                key={index}
+                images={room.images}
+                features={room.features}
+                latitude={room.latitude}
+                longitude={room.longitude}
+                room_id={room._id}
+                admin={admin ? admin : null}
+              />
+            )) }
           </ModalComponent>
     </div>
   )

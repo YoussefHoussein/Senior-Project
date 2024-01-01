@@ -1,5 +1,6 @@
 import React from 'react'
 import Modal from 'react-modal'
+import { useEffect } from 'react'
 const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justifyContent,alignItems,height,gap,backgroundColor, color, width,direction}) => {
     const customStyles = {
         content: {
@@ -30,6 +31,9 @@ const ModalComponent = ({openModal,onRequestClose,children,posTop,posLeft,justif
             bottom: 0
         }
     }
+    useEffect(() => {
+        Modal.setAppElement('#root');
+      }, []);
   return (
     <Modal
         isOpen={openModal}
