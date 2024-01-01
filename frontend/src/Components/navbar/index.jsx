@@ -12,6 +12,7 @@ import { CiUser } from "react-icons/ci";
 import DMap from '../draggebleMap'
 import axios from 'axios'
 import {useNavigate } from "react-router-dom";
+import SearchCard from '../searchCard'
 const Navbar = ({notifications, admin}) => {
   const navigation = useNavigate();
 
@@ -36,6 +37,11 @@ const Navbar = ({notifications, admin}) => {
   const containsOnlyNumbers = (str) => [...str].every((char) => !isNaN(char));
 
   const handleSearch = async () =>{
+    if(searchData === ""){
+      setSearchResult('Please enter the data like this: 35 35 . leave a space between numbers')
+      openSearchModal()
+      return
+    }
     const location = searchData.split(' ')
     location.forEach(element => {
       if(!containsOnlyNumbers(element)){
@@ -237,7 +243,7 @@ const Navbar = ({notifications, admin}) => {
             onRequestClose={closeSearchModal} 
             posTop={'40'} 
             posLeft={'50'} 
-            justifyContent={'center'} 
+            justifyContent={'flex-start'} 
             height={'50'} gap={'0'} 
             backgroundColor={'white'} 
             color={'#081B38'} 
