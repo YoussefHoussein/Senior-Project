@@ -167,4 +167,4 @@ const suggestions = async (req, res, next) => {
 
 
 
-module.exports = {addRoom, suggestions}
+module.exports = {addRoom, suggestions,getRoomImagesAsBase64}

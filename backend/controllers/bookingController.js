@@ -1,6 +1,6 @@
 const Booking = require('../models/bookingModel')
 const jwt = require("jsonwebtoken");
-
+const getRoomImagesAsBase64 = require('../controllers/roomController').getRoomImagesAsBase64
 const createBooking = async (req,res,next) =>{
     const {room_id, token, date, duration} = req.body
     const decoded = jwt.verify(token,'AsQ132PI')
@@ -70,4 +70,34 @@ const createBooking = async (req,res,next) =>{
     }
 }
 
-module.exports = {createBooking}
+const userBooking = async (req, res, next) => {
+    try {
+        const { token } = req.body;
+        const decoded = jwt.verify(token, 'AsQ132PI');
+        const user_Id = decoded._id;
+
+        const bookings = await Booking.find({ user: user_Id })
+            .populate('room', ['features', 'latitude', 'longitude', 'images'])
+            .exec();
+
+        const bookingsWithBase64Images = await Promise.all(
+            bookings.map(async (booking) => {
+                const room = booking.room;
+                if (room && room.images && room.images.length > 0) {
+                    const imagesAsBase64 = await getRoomImagesAsBase64(room);
+                    return { ...booking.toObject(), room: { ...room.toObject(), images: imagesAsBase64 } };
+                } else {
+                    return booking.toObject();
+                }
+            })
+        );
+
+        res.status(200).json({ bookings: bookingsWithBase64Images });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+module.exports = {createBooking, userBooking}
