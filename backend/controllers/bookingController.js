@@ -51,7 +51,7 @@ const createBooking = async (req,res,next) =>{
         await newBooking.save()
 
         res.json({
-            message: "booking saved successfully",
+            message: "Booking saved successfully",
             room: {
                 room: newBooking.room,
                 user: newBooking.user,
