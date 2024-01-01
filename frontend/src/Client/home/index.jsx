@@ -6,8 +6,8 @@ import Map from '../../Components/map'
 const ClientHome= () => {
   return (
     <div className='client-home relative full'>
-      <Navbar username={"Youssef"} email={"test@gmail.com"} notifications={["test","test1","test2"]}/>
-      <Sidebar items={["Home","Suggestions","Slots","Statistics","Support"]}/>
+      <Navbar email={"test@gmail.com"} notifications={["test","test1","test2"]}/>
+      <Sidebar items={["Home","Suggestions","Slots","Support"]}/>
       <div className='absolute body flex column home-container'>
         <div className='map-container'>
           <Map />

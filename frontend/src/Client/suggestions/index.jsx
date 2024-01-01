@@ -109,7 +109,7 @@ const Suggestions = () => {
   return (
     <div className='suggestions relative full'>
       <Navbar  />
-      <Sidebar items={["Home","Suggestions","Slots","Statistics","Support"]} selected={"Suggestions"}/>
+      <Sidebar items={["Home","Suggestions","Slots","Support"]} selected={"Suggestions"}/>
       <div className="client-home-container absolute body">
         <Map selectedSuggestion={selectedSuggestion} />
       </div>
