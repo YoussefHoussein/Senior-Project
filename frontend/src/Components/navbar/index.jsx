@@ -270,10 +270,10 @@ const Navbar = ({notifications, admin}) => {
                 latitude={room.latitude}
                 longitude={room.longitude}
                 room_id={room._id}
-                admin={admin ? admin : null}
+                admin={admin}
               />
             )) }
-          </ModalComponent>
+      </ModalComponent>
     </div>
   )
 }

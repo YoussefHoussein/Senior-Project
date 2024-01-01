@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './style.css'
 import ImageSlider from '../imageSlider'
 import ModalComponent from '../modal'
-import {MapContainer, Marker, TileLayer,Popup} from "react-leaflet"
+import {MapContainer, Marker, TileLayer} from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import L from 'leaflet';
 
@@ -44,12 +44,6 @@ const SlotCard = ({images,latitude, longitude,date, endDate}) => {
 
     setFormattedDate(formattedDateLocal)
     setFormattedEndDate(formattedEndDateLocal)
-
-    console.log(images)
-    console.log(latitude)
-    console.log(longitude)
-    console.log(formattedDateLocal)
-    console.log(formattedEndDateLocal)
     
   }, [date]);
   const openModal = () =>{
