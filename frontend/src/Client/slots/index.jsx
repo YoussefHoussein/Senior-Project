@@ -32,7 +32,7 @@ const Slots = () => {
     <div className='slots relative full'>
       <Navbar username={"Youssef"} />
       <Sidebar items={["Home","Suggestions","Slots","Statistics","Support"]} selected={"Slots"}/>
-      <div className="slots-body absolute body">
+      <div className="slots-body absolute body flex gap-50 wrap">
       {
           bookings.map((booking,index) =>(
             <SlotCard 
