@@ -167,6 +167,58 @@ const suggestions = async (req, res, next) => {
     }
 };
 
+const search = async (req, res) => {
+    const { userLat, userLong,country } = req.body;
+
+    try{
+        if(country){
+            const rooms = await Room.find({});
+
+            const results = await Promise.all(
+                rooms
+                    .filter(room => room.country == country)
+                    .map(async (room) => {
+                        const roomWithImages = {
+                            ...room.toObject(),
+                            images: await getRoomImagesAsBase64(room),
+                        };
+    
+                        return roomWithImages;
+                    })
+            );
+    
+            res.json(results);
+            return;
+        }
+        else if(userLat && userLong){
+            const rooms = await Room.find({});
+
+            const results = await Promise.all(
+                rooms
+                    .filter(room => Math.abs(room.latitude - userLat) <= 2 && Math.abs(room.longitude - userLong) <= 2)
+                    .map(async (room) => {
+                        const roomWithImages = {
+                            ...room.toObject(),
+                            images: await getRoomImagesAsBase64(room),
+                        };
+    
+                        return roomWithImages;
+                    })
+            );
+    
+            res.json(results);
+            return;
+        }
+    }
+    catch (err) {
+        console.error('Error fetching suggestions:', err);
+        res.status(500).json({
+            message: 'Error occurred',
+            error: err,
+        });
+    }
+}
+
 const deleteRoom = async (req,res,next) => {
     const {room_id} = req.body
     try{
@@ -194,4 +246,4 @@ const deleteRoom = async (req,res,next) => {
     }
 }
 
-module.exports = {addRoom, suggestions,getRoomImagesAsBase64,deleteRoom}
+module.exports = {addRoom, suggestions,getRoomImagesAsBase64,deleteRoom, search}
