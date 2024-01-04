@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
-const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
+const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) => {
   const [openAdmin, setOpenAdmin] = useState(false)
   const [openClient, setOpenClient] = useState(false)
   const [openVisit, setOpenVisit] = useState(false)
@@ -116,7 +116,7 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
   return (
     <div className='searchCard-container flex spaceBetween align-center'>
         <div className="search-info flex column spaceBetween align-center">
-            <div className="features"><span className='txt-features-mv'>{features}</span></div>
+            <div className="features"><span>{features}</span></div>
             <div className="searchCard-location flex center">{latitude.toFixed(4)}&deg; - {longitude.toFixed(4)}&deg;</div>
         </div>
         <div className="searchCard-visit-btn-container flex center">
@@ -142,6 +142,7 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
               <div className="card-feat-cont flex center">
                 {features}
               </div>
+              <div className="search-country-cont">{country}</div>
               <div className="card-map">
                 <MapContainer className='map' center={[latitude,longitude]} zoom={13} scrollWheelZoom={false}>
                   <TileLayer
@@ -179,6 +180,7 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
               <div className="card-feat-cont flex center">
                 {features}
               </div>
+              <div className="search-country-cont">{country}</div>
               <div className="card-map">
                 <MapContainer className='map' center={[latitude,longitude]} zoom={13} scrollWheelZoom={false}>
                   <TileLayer
@@ -215,6 +217,7 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
               <div className="room-feat-container">
                 {features}
               </div>
+              <div className="search-country-cont">{country}</div>
             </div>
             <div className="room-book flex column spaceBetween align-center">
               <div className="room-available-slots flex center">

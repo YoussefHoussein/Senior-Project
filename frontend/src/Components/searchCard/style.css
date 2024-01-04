@@ -29,6 +29,9 @@
     outline: none;
     cursor: pointer;
 }
+.search-country-cont{
+  width: 100%;
+}
 .txt-features-mv {
     display: inline-block;
     white-space: nowrap;

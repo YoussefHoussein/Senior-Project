@@ -306,6 +306,7 @@ const Navbar = ({notifications, admin}) => {
                 latitude={room.latitude}
                 longitude={room.longitude}
                 room_id={room._id}
+                country={room.country}
                 admin={admin}
               />
             )) }
