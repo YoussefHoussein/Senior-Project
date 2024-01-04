@@ -48,7 +48,8 @@ const Suggestions = () => {
         const token = localStorage.getItem('token');
         const data ={
           userLat: latitude,
-          userLong: longitude
+          userLong: longitude,
+          country: localStorage.getItem('country'),
         }
         const response = await axios.post('http://127.0.0.1:8000/api/rooms/suggestions',data, {
                 headers: {
