@@ -11,8 +11,8 @@ L.Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
-const DMap = ({save, done}) => {
-  const [position, setPosition] = useState([localStorage.getItem('latitude'),localStorage.getItem('longitude')])
+const DMap = ({save, done, latitude, longitude}) => {
+  const [position, setPosition] = useState([latitude ? latitude : localStorage.getItem('latitude'),longitude ? longitude :localStorage.getItem('longitude')])
   const markerRef = useRef(null)
   
   const eventHandlers = useMemo(
