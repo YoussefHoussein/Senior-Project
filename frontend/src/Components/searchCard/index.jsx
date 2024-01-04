@@ -36,9 +36,18 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) 
   const [countries, setCountries] = useState([]);
   const [imgFull, setImgFull] = useState(false)
   const [missing, setMissing] = useState(false)
+  const [error , setError] = useState("")
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
   };
+  const [op , setOp] = useState(false)
+
+  const openOp = () =>{
+    setOp(true)
+  }
+  const cl = () =>{
+    setOp(false)
+  }
   const [convertedImages, setConvertedImages] = useState([]);
     useEffect(() => {
       const convertImages = () => {
@@ -176,6 +185,51 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) 
     await setDone(true)
     
     setDone(false)
+  }
+
+  const handleSaveUpdates = async () =>{
+    const promises = convertedImages.map((image) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+
+        reader.onerror = (error) => {
+          reject(error);
+        };
+
+        reader.readAsDataURL(image);
+      });
+    });
+    
+    const base64Results = await Promise.all(promises);
+
+
+    
+    const fnlData = {
+      ...data,
+      latitude: localStorage.getItem('Roomlat'),
+      longitude: localStorage.getItem('Roomlong'),
+      base64Images: base64Results,
+      userType: localStorage.getItem('userType'),
+      country: selectedCountry
+    };
+      const token = localStorage.getItem('token');
+      const response = await axios.post('http://127.0.0.1:8000/api/rooms/add', fnlData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if(response.data.message == "room saved successfully"){
+        setError("")
+        openOp()
+      }
+      else{
+        setError(response.data.message)
+        openOp()
+      }
   }
   return (
     <div className='searchCard-container flex spaceBetween align-center'>
@@ -409,8 +463,25 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) 
               </div>
             </div>
             <div className="search-lower-part flex center">
-              <button className={missing ? 'img-full sve' : 'done-button sve'} >Save</button>
+              <button className={missing ? 'img-full sve' : 'done-button sve'} onClick={handleSaveUpdates}>Save</button>
             </div> 
+          </ModalComponent>
+          <ModalComponent 
+            openModal={op} 
+            onRequestClose={cl} 
+            posTop={'50'} 
+            posLeft={'50'} 
+            justifyContent={'center'} 
+            height={'40'} 
+            gap={'0'} 
+            backgroundColor={'#081B38'} 
+            color={'white'} 
+            width={'310'}
+            direction={'column'}
+            alignItems={'center'}
+          >
+            {error ? error : "Room saved Successfuly."}
+             
           </ModalComponent>
     </div>
   )

@@ -116,10 +116,6 @@ useEffect(() => {
     const base64Results = await Promise.all(promises);
 
     setBase64Images(base64Results);
-    console.log('Base64 Images:', base64Results);
-    console.log('description' + data.description);
-    console.log('lat : ' + localStorage.getItem('Roomlat'));
-    console.log('long : ' + localStorage.getItem('Roomlong'));
     
     const fnlData = {
       ...data,
