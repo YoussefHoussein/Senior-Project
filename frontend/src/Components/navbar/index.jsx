@@ -42,10 +42,12 @@ const Navbar = ({notifications, admin}) => {
   const [email, setEmail] = useState(localStorage.getItem('email'))
   const [username, setUsername] = useState(localStorage.getItem('userName'))
   const [country, setCountry] = useState("You have not set your country yet")
+
   const [searchData, setSearchData] = useState("")
   const [openSearch, setOpenSearch] = useState(false)
   const [searchResult, setSearchResult] = useState("")
   const [searchResultObject , setSearchResultObject] = useState([])
+
   const openSearchModal = () =>{
     setOpenSearch(true)
   }
@@ -74,12 +76,18 @@ const Navbar = ({notifications, admin}) => {
         return
       }
     });
+    if(location.length !== 2){
+      setSearchResult('Please enter the data like this: 35 35 . leave a space between numbers')
+      openSearchModal()
+      setSearchData("")
+      return
+    }
     const token = localStorage.getItem('token');
-    const data =({
+    const loc =({
       userLat: parseFloat(location[0]),
       userLong: parseFloat(location[1]),
     })
-    const response = await axios.post('http://127.0.0.1:8000/api/rooms/suggestions',data, {
+    const response = await axios.post('http://127.0.0.1:8000/api/rooms/suggestions',loc, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -275,7 +283,8 @@ const Navbar = ({notifications, admin}) => {
             direction={'column'}
             alignItems={'center'}
           >
-            {searchResultObject.map((room,index)=>(
+            {searchResult ? searchResult :
+            searchResultObject.map((room,index)=>(
               <SearchCard 
                 key={index}
                 images={room.images}

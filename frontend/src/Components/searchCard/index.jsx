@@ -5,7 +5,13 @@ import ImageSlider from '../imageSlider'
 import {MapContainer, Marker, TileLayer} from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import L from 'leaflet';
-
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import { addMonths } from 'date-fns';
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
+import axios from 'axios'
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -16,7 +22,27 @@ L.Icon.Default.mergeOptions({
 const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
   const [openAdmin, setOpenAdmin] = useState(false)
   const [openClient, setOpenClient] = useState(false)
+  const [openVisit, setOpenVisit] = useState(false)
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState('10:00');
+  const [duration, setDuration] = useState('1');
+  const [message, setMessage] = useState("")
+  const [result, setResult] = useState(false)
 
+  const openResult = () =>{
+    setResult(true)
+    setOpenVisit(false)
+  }
+  const closeResult = () =>{
+    setResult(false)
+  }
+  const open = () =>{
+    setOpenVisit(true)
+    setOpenClient(false)
+  }
+  const closeVisitModal = () =>{
+    setOpenVisit(false)
+  }
   const openAdminModal = () =>{
     setOpenAdmin(true)
   }
@@ -37,6 +63,42 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
     else{
       openClientModal()
     }
+  }
+  const handleOptionChange = (event) => {
+    setDuration(event.target.value);
+  };
+  const  convertToISOString = (dateString, timeString) =>{
+    
+    const dateObject = new Date(dateString);
+
+    
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1;
+    const day = dateObject.getDate();
+
+    
+    const [hours, minutes] = timeString.split(':');
+
+    
+    const isoString = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day}T${hours}:${minutes}:00`;
+
+    return isoString;
+  }
+  const handleBook = async () =>{
+    const booking_date = convertToISOString(date.toDateString(),time)
+    const fnlData = ({
+      room_id: room_id,
+      token: localStorage.getItem('token'),
+      date: booking_date,
+      duration: duration
+    })
+    const response = await axios.post('http://127.0.0.1:8000/api/booking/create',fnlData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+    setMessage(response.data.message)
+    openResult()  
   }
   return (
     <div className='searchCard-container flex spaceBetween align-center'>
@@ -115,10 +177,80 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
               </MapContainer>
               </div>
               <div className="card-btns flex flex-start align-center gap-10">
-                <button className='update-room-btn book-room-search'>Book</button>
+                <button className='update-room-btn book-room-search' onClick={open}>Book</button>
               </div>
             </div>
       </ModalComponent>
+
+      <ModalComponent 
+            openModal={openVisit} 
+            onRequestClose={closeVisitModal} 
+            posTop={'50'} 
+            posLeft={'50'} 
+            justifyContent={'flex-start'} 
+            height={'60'} gap={'0'} 
+            backgroundColor={'white'} 
+            color={'#081B38'} 
+            width={'1000'}
+            direction={'row'}
+            alignItems={'flex-start'}
+          >
+            <div className="room-details flex column flex-start align-center gap-50">
+              <div className="room-img-container">
+                <ImageSlider images={images}/>
+              </div>
+              <div className="room-feat-container">
+                {features}
+              </div>
+            </div>
+            <div className="room-book flex column spaceBetween align-center">
+              <div className="room-available-slots flex center">
+                <Calendar 
+                  onChange={setDate} 
+                  value={date} 
+                  className={'react-calendar'}
+                  minDate={new Date()}
+                  maxDate={addMonths(new Date(), 1)}
+                  next2Label= ''
+                  prev2Label=''
+
+                />
+              </div>
+              <div className="set-time flex align-center spaceBetween">
+                <TimePicker onChange={setTime} value={time} className={'time-picker'}/>
+                <select name="duration" value={duration} onChange={handleOptionChange}>
+                  <option value="1">1 hour</option>
+                  <option value="6">6 hour</option>
+                  <option value="12">12 hour</option>
+                </select>
+              </div>
+              <div className="book-results flex center gap-50">
+                {date.toDateString()} -
+                {time} -
+                {duration} hours
+              </div>
+              <div className="done-btn-container flex center">
+                <button className='done-btn' onClick={handleBook}>Book</button>
+              </div>
+            </div>
+          </ModalComponent>
+          <ModalComponent 
+            openModal={result} 
+            onRequestClose={closeResult} 
+            posTop={'50'} 
+            posLeft={'50'} 
+            justifyContent={'center'} 
+            height={'40'} 
+            gap={'0'} 
+            backgroundColor={'#081B38'} 
+            color={'white'} 
+            width={'310'}
+            direction={'column'}
+            alignItems={'center'}
+          >
+            {message === "Booking saved successfully" ? message +". Please check bookings to know the time" : message}
+             
+          </ModalComponent>
     </div>
   )
 }

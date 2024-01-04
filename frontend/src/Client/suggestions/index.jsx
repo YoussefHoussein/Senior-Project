@@ -207,7 +207,7 @@ const Suggestions = () => {
             direction={'column'}
             alignItems={'center'}
           >
-            {message === "Booking saved successfully" ? message +". Please check slots to know the time" : message}
+            {message === "Booking saved successfully" ? message +". Please check bookings to know the time" : message}
              
           </ModalComponent>
     </div>
