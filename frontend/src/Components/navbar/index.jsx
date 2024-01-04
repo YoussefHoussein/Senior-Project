@@ -80,7 +80,7 @@ const Navbar = ({notifications, admin}) => {
         userLat: parseFloat(location[0]),
         userLong: parseFloat(location[1]),
       })
-      const response = await axios.post('http://127.0.0.1:8000/api/rooms/suggestions',loc, {
+      const response = await axios.post('http://127.0.0.1:8000/api/rooms/search',loc, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -101,7 +101,7 @@ const Navbar = ({notifications, admin}) => {
     const loc =({
       country: searchData
     })
-    const response = await axios.post('http://127.0.0.1:8000/api/rooms/suggestions',loc, {
+    const response = await axios.post('http://127.0.0.1:8000/api/rooms/search',loc, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
