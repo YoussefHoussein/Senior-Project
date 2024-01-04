@@ -5,7 +5,7 @@ import Sidebar from '../../Components/sidebar'
 import DMap from '../../Components/draggebleMap'
 import axios from 'axios'
 import ModalComponent from '../../Components/modal'
-
+import { CiCircleRemove } from "react-icons/ci";
 
 const Add = () => {
   const [images, setImages] = useState([]);
@@ -72,8 +72,8 @@ useEffect(() => {
 
     setImages((prevImages) => [...prevImages, ...imageFiles]);
     setImgCount(imgCount+1)
-    if(imgCount == 8){
-      setImgFull(true)
+    if (images.length + imageFiles.length >= 7) {
+      setImgFull(true);
     }
   };
 
@@ -145,7 +145,15 @@ useEffect(() => {
       }
 
   };
+  const handleDeleteImage = (index) => {
+    const updatedImages = [...images];
+    updatedImages.splice(index, 1);
+    setImages(updatedImages);
 
+    if (updatedImages.length < 7) {
+      setImgFull(false);
+    }
+  };
   return (
     <div className='add relative full'>
       <Navbar admin={true}/>
@@ -180,14 +188,17 @@ useEffect(() => {
             ></textarea>
           </div>
           <div className="add-half add-right flex column flex-start align-center">
-            <div className='images-container'>
+            <div className='images-container flex wrap'>
               {images.map((image, index) => (
-                <img
-                  key={index}
-                  src={URL.createObjectURL(image)}
-                  alt={`Uploaded ${index + 1}`}
-                  className='added-image'
-                />
+                <div className='image-container relative' key={index}>
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(image)}
+                    alt={`Uploaded ${index + 1}`}
+                    className='added-image'
+                  />
+                  <CiCircleRemove className='delete-btn absolute' onClick={() => handleDeleteImage(index)}/>
+                </div>
               ))}
             </div>
             <div className='cont flex column align-center'>
