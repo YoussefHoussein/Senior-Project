@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './style.css'
 import img from './Picture1.png'
 import {AiOutlineSearch} from "react-icons/ai"
@@ -16,11 +16,32 @@ import SearchCard from '../searchCard'
 const Navbar = ({notifications, admin}) => {
   const navigation = useNavigate();
 
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch('https://restcountries.com/v3.1/all');
+        const data = await response.json();
+        setCountries(data);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  };
+
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
   const [email, setEmail] = useState(localStorage.getItem('email'))
   const [username, setUsername] = useState(localStorage.getItem('userName'))
-
+  const [country, setCountry] = useState("You have not set your country yet")
   const [searchData, setSearchData] = useState("")
   const [openSearch, setOpenSearch] = useState(false)
   const [searchResult, setSearchResult] = useState("")
@@ -142,20 +163,19 @@ const Navbar = ({notifications, admin}) => {
       </div>
       <div className="search-container flex">
         <AiOutlineSearch className='icon search-icon'onClick={handleSearch} title='click to search'/>
-        <input type="text" name="search" value={searchData} onChange={handleSearchChange} className='search-input' placeholder='enter latitude and longitude(e.g. 35 35)'/>
+        <input type="text" name="search" value={searchData} onChange={handleSearchChange} className='search-input' placeholder='latitude and longitude or country name'/>
       </div>
       <div className="user-icon flex spaceAround">
         <div className="notification" onClick={openNotificationModal}>
           <IoMdNotificationsOutline className='icon'/>
         </div>
-        {
-          notifications ? 
+        
           <ModalComponent 
             openModal={openNotification} 
             onRequestClose={closeNotificationModal} 
             posTop={'40'} 
             posLeft={'77'} 
-            justifyContent={'flex-start'} 
+            justifyContent={'center'} 
             height={'50'} gap={'0'} 
             backgroundColor={'#081B38'} 
             color={'white'} 
@@ -163,31 +183,9 @@ const Navbar = ({notifications, admin}) => {
             direction={'column'}
             alignItems={'center'}
           >
-              {notifications?.map((notification, index) => {
-              return (
-                <div className='notification-container flex align-center flex-start' key={index}>{notification}</div>
-              );
-            })}
+              Coming Soon...
           </ModalComponent> 
-          : 
-          <ModalComponent 
-            openModal={openNotification} 
-            onRequestClose={closeNotificationModal} 
-            posTop={'40'} 
-            posLeft={'77'} 
-            justifyContent={'center'} 
-            height={'50'} 
-            gap={'0'} 
-            backgroundColor={'#081B38'} 
-            color={'white'} 
-            width={'300'}
-            direction={'column'}
-            alignItems={'center'}
-          >
-            <LuMailWarning className='empty-icon'/>
-            <p>You have no notification this moment!!</p> 
-          </ModalComponent>
-        }
+        
         {
           admin ? username: 
           <div className="user flex" onClick={openUserModal}>
@@ -217,6 +215,9 @@ const Navbar = ({notifications, admin}) => {
             <div className="info-container flex center">
               <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
+            <div className="info-container flex center">
+              <input type="text" name="country" value={country} className='info-input' disabled/>
+            </div>
             <div className="location flex center">
               <Map />
             </div>
@@ -243,6 +244,18 @@ const Navbar = ({notifications, admin}) => {
             <div className="info-container flex center">
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
+            <div className="info-container flex center">
+      <label htmlFor="country">Select a country:</label>
+      <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+        <option value="">Select...</option>
+        {countries.map((country) => (
+          <option key={country.cca2} value={country.name.common}>
+            {country.name.common}
+          </option>
+        ))}
+      </select>
+      {selectedCountry && <p>You selected: {selectedCountry}</p>}
+    </div>
             <div className="edit-location flex center">
                 <DMap save={save}/>
             </div>

@@ -18,7 +18,7 @@ function App() {
         <Route path='/' element={<Login />}/>
         <Route path='/client' element={<ProtectedClient />}/>
         <Route path='/client/home' element={<ClientHome />}/>
-        <Route path='/client/slots' element={<Slots />}/>
+        <Route path='/client/Bookings' element={<Slots />}/>
         <Route path='/client/suggestions' element={<Suggestions />}/>
         <Route path='/client/support' element={<Support />}/>
         <Route path='/admin' element={<ProtectedAdmin />}/>

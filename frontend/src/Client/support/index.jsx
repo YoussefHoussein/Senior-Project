@@ -6,8 +6,8 @@ const Support = () => {
   return (
     <div className='support relative full'>
       <Navbar  />
-      <Sidebar items={["Home","Suggestions","Slots","Support"]} selected={"Support"}/>
-      <div className="support-body absolute body">Support</div>
+      <Sidebar items={["Home","Suggestions","Bookings","Support"]} selected={"Support"}/>
+      <div className="support-body absolute body flex center">Coming Soon...</div>
     </div>
   )
 }

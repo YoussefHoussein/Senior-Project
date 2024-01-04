@@ -7,7 +7,7 @@ const ClientHome= () => {
   return (
     <div className='client-home relative full'>
       <Navbar email={"test@gmail.com"} notifications={["test","test1","test2"]}/>
-      <Sidebar items={["Home","Suggestions","Slots","Support"]}/>
+      <Sidebar items={["Home","Suggestions","Bookings","Support"]}/>
       <div className='absolute body flex column home-container'>
         <div className='map-container'>
           <Map />

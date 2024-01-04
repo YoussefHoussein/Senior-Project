@@ -26,7 +26,7 @@ const SidebarItem = ({label,selected,onSelected}) => {
     else if(label === "Suggestions"){
         icon = <AiFillHeart />
     }
-    else if(label === "Slots"){
+    else if(label === "Bookings"){
         icon = <BiTimeFive />
     }
     else if(label === "Statistics"){
