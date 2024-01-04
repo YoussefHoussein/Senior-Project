@@ -75,6 +75,7 @@ const Login = () => {
             localStorage.setItem('email', response.data.user.email)
             localStorage.setItem('latitude', response.data.user.latitude)
             localStorage.setItem('longitude', response.data.user.langitude)
+            localStorage.setItem('country', response.data.user.country)
             if(response.data.user.userType == 2){
                 navigation("/client")
             }

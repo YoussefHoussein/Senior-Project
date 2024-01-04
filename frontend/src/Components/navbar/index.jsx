@@ -17,7 +17,7 @@ const Navbar = ({notifications, admin}) => {
   const navigation = useNavigate();
 
   const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState(localStorage.getItem('country'));
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -35,13 +35,13 @@ const Navbar = ({notifications, admin}) => {
 
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
+    localStorage.setItem('country', event.target.value);
   };
 
   const [longitude, setLongitude] = useState(localStorage.getItem('longitude'))
   const [latitude, setLatitude] = useState(localStorage.getItem('latitude'))
   const [email, setEmail] = useState(localStorage.getItem('email'))
   const [username, setUsername] = useState(localStorage.getItem('userName'))
-  const [country, setCountry] = useState("You have not set your country yet")
 
   const [searchData, setSearchData] = useState("")
   const [openSearch, setOpenSearch] = useState(false)
@@ -145,11 +145,12 @@ const Navbar = ({notifications, admin}) => {
   const handleSave = async () => {
     await setSave(true)
 
-    const finalData = ({
-      ...data,
-      latitude: localStorage.getItem('latitude'),
-      longitude: localStorage.getItem('longitude'),
-    })
+    const  finalData = ({
+        ...data,
+        latitude: localStorage.getItem('latitude'),
+        longitude: localStorage.getItem('longitude'),
+        country: selectedCountry
+      })
     console.log(finalData)
     const response = await axios.post('http://127.0.0.1:8000/api/user/update', finalData)
     if(response.data.message == "Updated user"){
@@ -224,7 +225,7 @@ const Navbar = ({notifications, admin}) => {
               <input type="text" name="email" value={email} className='info-input' disabled/>
             </div>
             <div className="info-container flex center">
-              <input type="text" name="country" value={country} className='info-input' disabled/>
+              <input type="text" name="country" value={selectedCountry === "null" ? "You didn't add your country yet" : selectedCountry} className='info-input' disabled/>
             </div>
             <div className="location flex center">
               <Map />
@@ -253,17 +254,16 @@ const Navbar = ({notifications, admin}) => {
               <input type="text" name="e_email" value={data.e_email} className='info-edit' onChange={editData} required/>
             </div>
             <div className="info-container flex center">
-      <label htmlFor="country">Select a country:</label>
-      <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-        <option value="">Select...</option>
-        {countries.map((country) => (
-          <option key={country.cca2} value={country.name.common}>
-            {country.name.common}
-          </option>
-        ))}
-      </select>
-      {selectedCountry && <p>You selected: {selectedCountry}</p>}
-    </div>
+              <label htmlFor="country">Select a country:</label>
+              <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+                <option value="">Select...</option>
+                {countries.map((country) => (
+                  <option key={country.cca2} value={country.name.common}>
+                    {country.name.common}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="edit-location flex center">
                 <DMap save={save}/>
             </div>
