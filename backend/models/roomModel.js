@@ -23,6 +23,9 @@ const roomSchema = new Schema({
     images: [imageSchema],
     password: {
         type: String,
+    },
+    country:{
+        type: String,
     }
 }, 
     {

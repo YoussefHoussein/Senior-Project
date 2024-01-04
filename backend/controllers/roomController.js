@@ -29,7 +29,7 @@ const addRoom = async (req, res, next) =>{
         fs.mkdirSync(roomImagesDir);
         console.log('Created "room_images" directory');
     }
-    const {description, latitude, longitude, base64Images, userType} = req.body;
+    const {description, latitude, longitude, base64Images, userType, country} = req.body;
     if(userType === 2){
         res.json({
             message: "You can not handle this process"
@@ -86,7 +86,8 @@ const addRoom = async (req, res, next) =>{
             images: savedImageObjects,
             latitude,
             longitude,
-            password: hashedPassword
+            password: hashedPassword,
+            country: country
           })
       
         const savedRoom = await roomData.save();
