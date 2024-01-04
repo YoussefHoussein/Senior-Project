@@ -187,50 +187,53 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) 
     setDone(false)
   }
 
-  const handleSaveUpdates = async () =>{
-    const promises = convertedImages.map((image) => {
+  const handleSaveUpdates = async () => {
+    const promises = convertedImages.map((imageDataUrl) => {
       return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-
-        reader.onerror = (error) => {
-          reject(error);
-        };
-
-        reader.readAsDataURL(image);
+        fetch(imageDataUrl)
+          .then((response) => response.blob())
+          .then((blob) => {
+            resolve(new File([blob], `image_${Date.now()}.png`));
+          })
+          .catch((error) => {
+            reject(error);
+          });
       });
     });
-    
-    const base64Results = await Promise.all(promises);
-
-
-    
-    const fnlData = {
-      ...data,
-      latitude: localStorage.getItem('Roomlat'),
-      longitude: localStorage.getItem('Roomlong'),
-      base64Images: base64Results,
-      userType: localStorage.getItem('userType'),
-      country: selectedCountry
-    };
+  
+    try {
+      const imageFiles = await Promise.all(promises);
+  
+      const fnlData = {
+        ...data,
+        latitude: localStorage.getItem('Roomlat'),
+        longitude: localStorage.getItem('Roomlong'),
+        base64Images: imageFiles,
+        userType: localStorage.getItem('userType'),
+        country: selectedCountry,
+      };
+  
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://127.0.0.1:8000/api/rooms/add', fnlData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if(response.data.message == "room saved successfully"){
-        setError("")
-        openOp()
-      }
-      else{
-        setError(response.data.message)
-        openOp()
-      }
-  }
+      const response = await axios.post('http://127.0.0.1:8000/api/rooms/update',fnlData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("response: "+response);
+      // if (response.data.message === 'Room updated successfully') {
+      //   setError('');
+      //   openOp();
+      // } else {
+      //   setError(response.data.message);
+      //   openOp();
+      // }
+    } catch (error) {
+      console.error('Error reading data URLs:', error);
+    }
+  };
+  
   return (
     <div className='searchCard-container flex spaceBetween align-center'>
         <div className="search-info flex column spaceBetween align-center">
