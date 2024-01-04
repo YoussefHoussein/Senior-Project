@@ -63,29 +63,43 @@ const Navbar = ({notifications, admin}) => {
   const handleSearch = async () =>{
     setSearchResult("")
     if(searchData === ""){
-      setSearchResult('Please enter the data like this: 35 35 . leave a space between numbers')
+      setSearchResult('Please enter the data like this: 35 35, leave a space between numbers or enter the country name')
       openSearchModal()
       return
     }
-    const location = searchData.split(' ')
-    location.forEach(element => {
-      if(!containsOnlyNumbers(element)){
+    if(containsOnlyNumbers(searchData)){
+      const location = searchData.split(' ')
+      if(location.length !== 2){
         setSearchResult('Please enter the data like this: 35 35 . leave a space between numbers')
         openSearchModal()
         setSearchData("")
         return
       }
-    });
-    if(location.length !== 2){
-      setSearchResult('Please enter the data like this: 35 35 . leave a space between numbers')
-      openSearchModal()
+      const token = localStorage.getItem('token');
+      const loc =({
+        userLat: parseFloat(location[0]),
+        userLong: parseFloat(location[1]),
+      })
+      const response = await axios.post('http://127.0.0.1:8000/api/rooms/suggestions',loc, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+      });
+      if(response.data.length === 0){
+        setSearchResult('The location you requested has no near rooms.')
+        openSearchModal()
+        setSearchData("")
+        return
+      }
+      setSearchResultObject(response.data)
       setSearchData("")
-      return
+      console.log(response.data)
+      openSearchModal()
     }
+    
     const token = localStorage.getItem('token');
     const loc =({
-      userLat: parseFloat(location[0]),
-      userLong: parseFloat(location[1]),
+      country: searchData
     })
     const response = await axios.post('http://127.0.0.1:8000/api/rooms/suggestions',loc, {
         headers: {
@@ -93,7 +107,7 @@ const Navbar = ({notifications, admin}) => {
         },
     });
     if(response.data.length === 0){
-      setSearchResult('The location you requested has no near rooms.')
+      setSearchResult('The country you requested has no rooms.')
       openSearchModal()
       setSearchData("")
       return
