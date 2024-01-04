@@ -162,6 +162,15 @@ const Suggestions = () => {
                 ))
               )}
               </div>
+              <div className="country-container flex align-start">
+              {selectedSuggestion && suggestions.length > 0 && (
+                suggestions
+                .filter(suggestion => suggestion.latitude === selectedSuggestion.latitude && suggestion.longitude === selectedSuggestion.longitude)
+                .map((matchedSuggestion, index) => (
+                  matchedSuggestion.country
+                ))
+              )}
+              </div>
             </div>
             <div className="room-book flex column spaceBetween align-center">
               <div className="room-available-slots flex center">

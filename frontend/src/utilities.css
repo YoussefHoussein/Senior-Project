@@ -27,6 +27,12 @@
 .flex-start{
     justify-content: flex-start;
 }
+.align-start{
+    align-items: flex-start;
+}
+.justify-center{
+    justify-content: center;
+}
 .relative{
     position: relative;
 }
