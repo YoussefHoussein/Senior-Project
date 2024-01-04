@@ -138,14 +138,14 @@ const getRoomImagesAsBase64 = async (room) => {
 
 
 const suggestions = async (req, res, next) => {
-    const { userLat, userLong } = req.body;
+    const { userLat, userLong,country } = req.body;
 
     try {
         const rooms = await Room.find({});
 
         const results = await Promise.all(
             rooms
-                .filter(room => Math.abs(room.latitude - userLat) <= 2 && Math.abs(room.longitude - userLong) <= 2)
+                .filter(room => Math.abs(room.latitude - userLat) <= 2 && Math.abs(room.longitude - userLong) <= 2 && room.country == country)
                 .map(async (room) => {
                     const roomWithImages = {
                         ...room.toObject(),
