@@ -105,6 +105,61 @@ const addRoom = async (req, res, next) =>{
         });
 }
 }
+const updateRoom = async (req, res, next) => {
+    const { roomId, description, latitude, longitude, base64Images, country } = req.body;
+
+    try {
+        const roomToUpdate = await Room.findById(roomId);
+
+        if (!roomToUpdate) {
+            res.status(404).json({
+                message: "Room not found",
+            });
+            return;
+        }
+
+        roomToUpdate.features = description;
+        roomToUpdate.latitude = latitude;
+        roomToUpdate.longitude = longitude;
+        roomToUpdate.country = country;
+
+
+        if (base64Images && base64Images.length > 0) {
+
+            roomToUpdate.images.forEach((image) => {
+                const imagePath = path.join(image.folderName, image.image);
+                fs.unlinkSync(imagePath);
+            });
+
+
+            const savedImageObjects = base64Images.map((base64Image, index) => {
+                const imageBuffer = Buffer.from(base64Image.split(',')[1], 'base64');
+                const imageName = `image_${index + 1}.png`;
+                const imagePath = path.join(roomToUpdate.images[0].folderName, imageName);
+
+                fs.writeFileSync(imagePath, imageBuffer);
+
+                return { image: imageName, folderName: roomToUpdate.images[0].folderName };
+            });
+
+            roomToUpdate.images = savedImageObjects;
+        }
+
+        const updatedRoom = await roomToUpdate.save();
+
+        res.json({
+            message: "Room updated successfully",
+            room: updatedRoom,
+        });
+    } catch (err) {
+        console.error('Error updating room:', err);
+        res.status(500).json({
+            message: 'Error updating room',
+            error: err,
+        });
+    }
+};
+
 const getRoomImagesAsBase64 = async (room) => {
     const imagePromises = room.images.map(async (image) => {
         if (!image.folderName || !image.image) {
@@ -246,4 +301,4 @@ const deleteRoom = async (req,res,next) => {
     }
 }
 
-module.exports = {addRoom, suggestions,getRoomImagesAsBase64,deleteRoom, search}
+module.exports = {addRoom, suggestions,getRoomImagesAsBase64,deleteRoom, search, updateRoom}
