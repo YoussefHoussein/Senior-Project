@@ -1,4 +1,5 @@
 const Room = require('../models/roomModel').Room
+const Booking = require('../models/bookingModel')
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
 const path = require('path');
@@ -165,6 +166,31 @@ const suggestions = async (req, res, next) => {
     }
 };
 
+const deleteRoom = async (req,res,next) => {
+    const {room_id} = req.body
+    try{
+        const currentDate = new Date();
+        const bookings = await Booking.find({ room: room_id, endDate: { $gte: currentDate } });
+        if(bookings && bookings.length >0){
+            res.json({
+                message: "room has active booking you can't delete it"
+            })
+            return
+        }
+        await Room.deleteOne({ _id: room_id });
+        res.json({
+            message: 'Room deleted successfully.',
+            
+        });
+        return;
+    }
+    catch(err){
+        console.error('Error fetching suggestions:', err);
+        res.status(500).json({
+            message: 'Error occurred',
+            error: err,
+        });
+    }
+}
 
-
-module.exports = {addRoom, suggestions,getRoomImagesAsBase64}
+module.exports = {addRoom, suggestions,getRoomImagesAsBase64,deleteRoom}
