@@ -24,6 +24,10 @@ const userSchema = new Schema({
     },
     userType :{
         type: Number
+    },
+    country :{
+        type: String,
+        default: null
     }
 })
 const User = mongoose.model('User', userSchema);
