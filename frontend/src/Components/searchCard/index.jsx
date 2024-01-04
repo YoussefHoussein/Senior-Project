@@ -32,6 +32,7 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
   const openResult = () =>{
     setResult(true)
     setOpenVisit(false)
+    setOpenAdmin(false)
   }
   const closeResult = () =>{
     setResult(false)
@@ -93,12 +94,24 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
       duration: duration
     })
     const response = await axios.post('http://127.0.0.1:8000/api/booking/create',fnlData, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            });
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
     setMessage(response.data.message)
     openResult()  
+  }
+  const handleDelete = async () =>{
+    const fnlData = ({
+      room_id: room_id,
+    })
+    const response = await axios.post('http://127.0.0.1:8000/api/rooms/delete',fnlData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    setMessage(response.data.message)
+    openResult() 
   }
   return (
     <div className='searchCard-container flex spaceBetween align-center'>
@@ -140,7 +153,7 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id}) => {
               </MapContainer>
               </div>
               <div className="card-btns flex flex-start align-center gap-10">
-                <button className='update-room-btn'>Delete Room</button>
+                <button className='update-room-btn' onClick={handleDelete}>Delete Room</button>
                 <button className='update-room-btn'>Update Room information</button>
               </div>
             </div>
