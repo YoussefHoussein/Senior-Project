@@ -145,7 +145,7 @@ const suggestions = async (req, res, next) => {
 
         const results = await Promise.all(
             rooms
-                .filter(room => Math.abs(room.latitude - userLat) <= 2 && Math.abs(room.longitude - userLong) <= 2 && room.country == country)
+                .filter(room => Math.abs(room.latitude - userLat) <= 2 && Math.abs(room.longitude - userLong) <= 2 && room.country.toLowerCase() == country.toLowerCase())
                 .map(async (room) => {
                     const roomWithImages = {
                         ...room.toObject(),
@@ -176,7 +176,7 @@ const search = async (req, res) => {
 
             const results = await Promise.all(
                 rooms
-                    .filter(room => room.country == country)
+                    .filter(room => room.country.toLowerCase() == country.toLowerCase())
                     .map(async (room) => {
                         const roomWithImages = {
                             ...room.toObject(),
