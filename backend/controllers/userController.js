@@ -46,7 +46,7 @@ const login = async (req, res,next) =>{
 }
 
 const upadate = async (req, res) => {
-    const {e_name, e_email, latitude, longitude, token} = req.body
+    const {e_name, e_email, latitude, longitude,country, token} = req.body
     try{
         const decoded = jwt.verify(token,'AsQ132PI')
         const userId = decoded._id
@@ -56,13 +56,15 @@ const upadate = async (req, res) => {
             user.email = e_email
             user.latitude = latitude
             user.langitude = longitude
+            user.country = country
             await user.save()
             res.send({
                 message: 'Updated user',
                 name: user.name,
                 email: user.email,
                 latitude: user.latitude,
-                longitude: user.langitude
+                longitude: user.langitude,
+                country: user.country
             })
         }
         else{
