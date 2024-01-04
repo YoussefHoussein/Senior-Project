@@ -15,6 +15,8 @@ const Add = () => {
   const [imgFull, setImgFull] = useState(false)
   const [missing, setMissing] = useState(false)
   const [base64Images, setBase64Images] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
   const [data, setData] = useState({
     description: "",
   })
@@ -28,6 +30,22 @@ const handleDone = async () =>{
   
   setDone(false)
 }
+const handleCountryChange = (event) => {
+  setSelectedCountry(event.target.value);
+};
+useEffect(() => {
+  const fetchCountries = async () => {
+    try {
+      const response = await fetch('https://restcountries.com/v3.1/all');
+      const data = await response.json();
+      setCountries(data);
+    } catch (error) {
+      console.error('Error fetching countries:', error);
+    }
+  };
+
+  fetchCountries();
+}, []);
   useEffect( () =>{
     localStorage.setItem('Roomlat', 0);
     localStorage.setItem('Roomlong', 0);
@@ -36,7 +54,7 @@ const handleDone = async () =>{
     const checkForMissingData = () => {
       const roomLat = localStorage.getItem('Roomlat');
       const roomLong = localStorage.getItem('Roomlong');
-      if (roomLat === '0' || roomLong === '0' || images.length === 0, data.description === "") {
+      if (roomLat === '0' || roomLong === '0' || images.length === 0 || data.description === "" || selectedCountry === "") {
         setMissing(true);
       } else {
         setMissing(false);
@@ -44,7 +62,7 @@ const handleDone = async () =>{
     };
   
     checkForMissingData();
-  }, [images, localStorage.getItem('Roomlat'), localStorage.getItem('Roomlong')]);
+  }, [images, localStorage.getItem('Roomlat'), localStorage.getItem('Roomlong'), data.description, selectedCountry]);
   
   
   const handleFileInputChange = (event) => {
@@ -73,6 +91,7 @@ const handleDone = async () =>{
     setData({
       description: ""
     })
+    setSelectedCountry("")
     setImages([])
   }
 
@@ -107,7 +126,8 @@ const handleDone = async () =>{
       latitude: localStorage.getItem('Roomlat'),
       longitude: localStorage.getItem('Roomlong'),
       base64Images: base64Results,
-      userType: localStorage.getItem('userType')
+      userType: localStorage.getItem('userType'),
+      country: selectedCountry
     };
       const token = localStorage.getItem('token');
       const response = await axios.post('http://127.0.0.1:8000/api/rooms/add', fnlData, {
@@ -180,6 +200,17 @@ const handleDone = async () =>{
                 ref={fileInputRef}
                 style={ {display : 'none'}}
               />
+            </div>
+            <div className="info-container flex center">
+              <label htmlFor="country">Select a country:</label>
+              <select id="country" value={selectedCountry} onChange={handleCountryChange}>
+                <option value="">Select...</option>
+                {countries.map((country) => (
+                  <option key={country.cca2} value={country.name.common}>
+                    {country.name.common}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
