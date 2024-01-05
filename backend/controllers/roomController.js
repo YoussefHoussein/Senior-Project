@@ -3,6 +3,7 @@ const Booking = require('../models/bookingModel')
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
 const path = require('path');
+const fse = require('fs-extra');
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require('uuid');
 
@@ -274,31 +275,42 @@ const search = async (req, res) => {
     }
 }
 
-const deleteRoom = async (req,res,next) => {
-    const {room_id} = req.body
-    try{
+const deleteRoom = async (req, res, next) => {
+    const { room_id } = req.body;
+    try {
         const currentDate = new Date();
         const bookings = await Booking.find({ room: room_id, endDate: { $gte: currentDate } });
-        if(bookings && bookings.length >0){
+        if (bookings && bookings.length > 0) {
             res.json({
-                message: "room has active booking you can't delete it"
-            })
-            return
+                message: "Room has active bookings, you can't delete it."
+            });
+            return;
         }
+
+        const room = await Room.findById(room_id);
+        if (!room) {
+            res.json({
+                message: "Room not found."
+            });
+            return;
+        }
+
+        const roomFolder = path.resolve(process.cwd(), 'room_images', room.images[0].folderName);
+        await fse.remove(roomFolder);
+
         await Room.deleteOne({ _id: room_id });
+
         res.json({
             message: 'Room deleted successfully.',
-            
         });
         return;
-    }
-    catch(err){
-        console.error('Error fetching suggestions:', err);
+    } catch (err) {
+        console.error('Error deleting room:', err);
         res.status(500).json({
             message: 'Error occurred',
             error: err,
         });
     }
-}
+};
 
 module.exports = {addRoom, suggestions,getRoomImagesAsBase64,deleteRoom, search, updateRoom}
