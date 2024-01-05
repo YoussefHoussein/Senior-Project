@@ -209,8 +209,8 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) 
         latitude: localStorage.getItem('Roomlat'),
         longitude: localStorage.getItem('Roomlong'),
         base64Images: imageFiles,
-        userType: localStorage.getItem('userType'),
         country: selectedCountry,
+        roomId: room_id
       };
   
       const token = localStorage.getItem('token');
