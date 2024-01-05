@@ -7,7 +7,7 @@ const Chats = () => {
     <div className='chats relative full'>
       <Navbar admin={true}/>
       <Sidebar items={["Add","Chats"]} selected={"Chats"}/>
-      <div className="chats-body absolute body">Chats</div>
+      <div className="chats-body absolute body flex center">Coming Soon...</div>
     </div>
   )
 }
