@@ -9,6 +9,5 @@ router.post('/add', UserMiddleware, RoomController.addRoom)
 router.post('/suggestions',UserMiddleware, RoomController.suggestions)
 router.post('/delete',UserMiddleware, RoomController.deleteRoom)
 router.post('/search',UserMiddleware, RoomController.search)
-router.post('/update',UserMiddleware, RoomController.updateRoom)
 
 module.exports = router

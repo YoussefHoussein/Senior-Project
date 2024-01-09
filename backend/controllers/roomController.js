@@ -260,66 +260,7 @@ const deleteRoom = async (req, res, next) => {
 };
 
 
-const updateRoom = async (req, res, next) => {
-    const { room_id, images, latitude, longitude, description, country } = req.body;
-
-    try {
-        const currentDate = new Date();
-        const bookings = await Booking.find({ room: room_id, endDate: { $gte: currentDate } });
-        if (bookings && bookings.length > 0) {
-            res.json({
-                message: "Room has active bookings, you can't delete it."
-            });
-            return;
-        }
-
-        const room = await Room.findById(room_id);
-        if (!room) {
-            res.json({
-                message: "Room not found."
-            });
-            return;
-        }
-
-        const roomFolder = path.resolve(process.cwd(), 'room_images', room.images[0].folderName);
-        await fse.remove(roomFolder);
-
-        await Room.deleteOne({ _id: room_id });
-    } catch (err) {
-        console.error('Error deleting room:', err);
-        res.status(500).json({
-            message: 'Error occurred',
-            error: err,
-        });
-        return;
-    }
-
-    try {
-
-        await addRoom({
-            body: {
-                description,
-                latitude,
-                longitude,
-                base64Images: images,
-                userType: 1,
-                country,
-            }
-        }, res, next);
-
-        res.json({
-            message: 'Room updated successfully.',
-        });
-    } catch (error) {
-        console.error('Error updating room:', error);
-        res.status(500).json({
-            message: 'Error occurred during room update',
-            error,
-        });
-    }
-};
 
 
 
-
-module.exports = {addRoom, suggestions,getRoomImagesAsBase64,deleteRoom, search, updateRoom}
+module.exports = {addRoom, suggestions,getRoomImagesAsBase64,deleteRoom, search}
