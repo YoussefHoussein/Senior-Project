@@ -187,52 +187,7 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) 
     setDone(false)
   }
 
-  const handleSaveUpdates = async () => {
-    const promises = convertedImages.map((imageDataUrl) => {
-      return new Promise((resolve, reject) => {
-        fetch(imageDataUrl)
-          .then((response) => response.blob())
-          .then((blob) => {
-            resolve(new File([blob], `image_${Date.now()}.png`));
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
-    });
-  
-    try {
-      const imageFiles = await Promise.all(promises);
-  
-      const fnlData = {
-        ...data,
-        latitude: localStorage.getItem('Roomlat'),
-        longitude: localStorage.getItem('Roomlong'),
-        base64Images: imageFiles,
-        country: selectedCountry,
-        roomId: room_id
-      };
-  
-      const token = localStorage.getItem('token');
-      const response = await axios.post('http://127.0.0.1:8000/api/rooms/update',fnlData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("response: "+response);
-      // if (response.data.message === 'Room updated successfully') {
-      //   setError('');
-      //   openOp();
-      // } else {
-      //   setError(response.data.message);
-      //   openOp();
-      // }
-    } catch (error) {
-      console.error('Error reading data URLs:', error);
-    }
-  };
+
   
   return (
     <div className='searchCard-container flex spaceBetween align-center'>
@@ -276,7 +231,6 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) 
               </div>
               <div className="card-btns flex flex-start align-center gap-10">
                 <button className='update-room-btn' onClick={handleDelete}>Delete Room</button>
-                <button className='update-room-btn' onClick={openUpdateModal}>Update Room information</button>
               </div>
             </div>
       </ModalComponent>
@@ -389,86 +343,6 @@ const SearchCard = ({admin,images,latitude,longitude,features,room_id,country}) 
              
           </ModalComponent>
 
-          <ModalComponent 
-            openModal={openUpdate} 
-            onRequestClose={closeUpdateModal} 
-            posTop={'50'} 
-            posLeft={'50'} 
-            justifyContent={'space-between'} 
-            height={'70'} 
-            gap={'0'} 
-            backgroundColor={'#081B38'} 
-            color={'white'} 
-            width={'1000'}
-            direction={'column'}
-            alignItems={'center'}
-          >
-            <div className="search-upper-part flex">
-              <div className="upper-left-part">
-                <div className="search-map-container flex spaceBetween align-center column">
-                  <div className="search-dMap-container">
-                    <DMap done={done} latitude={latitude} longitude={longitude}/>
-                  </div>
-                  <div className="search-result-container flex flex-start align-center gap-10">
-                    <button className='done-button' onClick={handleDone}>Done</button>
-                    <div className="result">
-                      Results: &nbsp; &nbsp; {
-                        parseFloat(localStorage.getItem('Roomlat')).toFixed(4)
-                      }&deg; &nbsp; &nbsp;  {
-                        parseFloat(localStorage.getItem('Roomlong')).toFixed(4)
-                      }&deg;
-                    </div>
-                  </div>
-                </div>
-                <div className="search-desc-container flex center">
-                  <textarea 
-                    cols="30" 
-                    rows="10"
-                    type="text" 
-                    name="description" 
-                    className='search-input-desc' 
-                    value={data.description} 
-                    placeholder='Description'
-                    onChange={handleChange}
-                  ></textarea>
-                </div>
-              </div>
-              <div className="upper-right-part flex column spaceBetween align-center">
-                <div className="imgs-container">
-                  <div className="search-added-images-container flex column wrap">
-                    {convertedImages.map((image, index) => (
-                    <div className='image-container relative' key={index}>
-                      <img
-                        key={index}
-                        src={image}
-                        alt={`Uploaded ${index + 1}`}
-                        className='added-image'
-                      />
-                      <CiCircleRemove className='delete-btn absolute' onClick={() => handleDeleteImage(index)}/>
-                    </div>
-                    ))}
-                  </div>
-                  <div className="search-upload-image-container flex center">
-                    <button className={imgFull ? 'img-full' : 'done-button'}>Upload Image</button>
-                  </div>
-                </div>
-                <div className="search-country-container flex gap-10 center">
-                  <label htmlFor="country">Select a country:</label>
-                  <select id="country" value={selectedCountry} onChange={handleCountryChange}>
-                    <option value="">Select...</option>
-                    {countries.map((country) => (
-                      <option key={country.cca2} value={country.name.common}>
-                        {country.name.common}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="search-lower-part flex center">
-              <button className={missing ? 'img-full sve' : 'done-button sve'} onClick={handleSaveUpdates}>Save</button>
-            </div> 
-          </ModalComponent>
           <ModalComponent 
             openModal={op} 
             onRequestClose={cl} 
